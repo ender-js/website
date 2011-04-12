@@ -133,7 +133,7 @@ Utility methods provided by [underscore](http://documentcloud.github.com/undersc
 <div class="hr" id="guide"></div>
 The Haps
 --------
-Ender.js pulls together the beauty of well-designed modular software and proves that git submodules can actually work. Thus if one part of the system goes bad or unmaintained, it can be replaced with another with minimal to zero changes to the wrapper (Ender). Furthermore if you want remove a feature out entirely (like for example, the animation utility), you can use the Ender command utility and compose only the submodules you need.
+Ender.js pulls together the beauty of well-designed modular software and proves that git submodules can actually work. Thus if one part of the system goes bad or unmaintained, it can be replaced with another with minimal to zero changes to the wrapper (Ender). Furthermore if you want to remove a feature out entirely (like for example, the animation utility), you can use the Ender command utility and compose only the submodules you need.
 
 Building
 --------
