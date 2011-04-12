@@ -1,0 +1,170 @@
+body {
+  font-family: arial;
+  margin:0;
+  padding:0;
+}
+
+h2 {
+  font-family: "futura-CondensedMedium", futura, helvetica;
+  padding: 20px 0 0 20px;
+  font-weight: normal;
+  font-size: 36px;
+  margin: 5px 0;
+  text-transform: lowercase;
+}
+
+h3 {
+  font-size: 18px;
+  font-family: helvetica;
+  margin-bottom:5px;
+  margin-left: 20px;
+}
+
+h4 {
+  margin-left: 20px;
+}
+
+pre {
+  padding: 10px 10px 10px 20px;
+  background-color:#222;
+  font-size:12px;
+  color:#fff;
+  font-family: "monaco", monospace;
+  border-bottom: 4px solid #888;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+ul li {
+  list-style:none;
+  padding:10px 20px;
+  font-size:14px;
+  background:#eee;
+}
+
+ul li:nth-child(odd) {
+  background: #ddd;
+}
+
+.hr {
+  background: url('/img/hr.jpg');
+  height: 15px;
+  margin:20px 20px 10px 20px;
+}
+
+/* PAGE WRAP
+=============*/
+
+.wrap {
+  display:block;
+  position:relative;
+  width:960px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.page {
+  background:#fff;
+  border-bottom: 4px solid #888;
+}
+
+.page .title {
+  padding: 20px 0 0 20px;
+}
+
+.page p {
+  padding: 5px 20px;
+  line-height:30px;
+}
+
+
+/* HEADER
+=============*/
+
+header .left {
+  background: url('/img/battle.jpg') no-repeat 30px 38px;
+  height:470px;
+  width:470px;
+  float: left;
+}
+
+header .right {
+  width:470px;
+  float:left;
+  margin-left:20px;
+}
+
+header .right h3 {
+  margin-left: 0;
+}
+
+/* NAV
+=============*/
+
+#nav {
+  display:block;
+  position:absolute;
+  top:50px;
+  top: 485px;
+  left: 0;
+  right: 0;
+  background:#000;
+  border-bottom:4px solid #888;
+  z-index:2;
+}
+
+nav {
+  display:block;
+  position:relative;
+  width:960px;
+  margin: 0 auto;
+}
+
+nav a {
+  padding: 10px 25px;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  display: inline-block;
+  font-weight: bold;
+}
+
+nav a:hover {
+  background:#333;
+}
+
+nav a:first-child {
+  padding-left: 5px;
+}
+
+
+/* CONTENT
+===========*/
+
+#content {
+  display:block;
+  clear:both;
+  padding-top:40px;
+  background: url('/img/background.jpg');
+}
+
+/* COLORS
+============*/
+.yellow, .number {
+  color:#ffff44;
+}
+
+em, .teal, .keyword {
+  color: #219195;
+}
+
+a, .pomegranate, .string {
+  color: #fa524f;
+}
+
+.grey, .comment {
+  color: #aaaaaa;
+}

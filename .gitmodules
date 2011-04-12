@@ -1,0 +1,6 @@
+[submodule "public/js/support/hijs"]
+	path = public/js/support/hijs
+	url = https://github.com/cloudhead/hijs.git
+[submodule "public/js/support/ender"]
+	path = public/js/support/ender
+	url = git@github.com:ded/Ender.js.git
