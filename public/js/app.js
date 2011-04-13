@@ -50,19 +50,4 @@ $.domReady(function () {
   $(window).bind('scroll', processScroll);
   $('nav').bind(buttons, 'click', setButton);
 
-  $('#intro .left').css('position', 'relative').hover(
-    function () {
-      $(this).animate({
-        top: -5,
-        duration: 300
-      });
-    },
-    function () {
-      $(this).animate({
-        top: 0,
-        duration: 300
-      });
-    }
-  );
-
 });
