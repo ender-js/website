@@ -820,7 +820,7 @@ $._select = qwery.noConflict();/*!
     },
 
     offset: function () {
-      var el = this.elements[0];
+      var el = this.first();
       var width = el.offsetWidth;
       var height = el.offsetHeight;
       var top = el.offsetTop;
@@ -839,7 +839,7 @@ $._select = qwery.noConflict();/*!
     },
 
     attr: function (k, v) {
-      var el = this.elements[0];
+      var el = this.first();
       return typeof v == 'undefined' ?
         specialAttributes.test(k) ?
           stateAttributes.test(k) && typeof el[k] == 'string' ?
@@ -867,9 +867,31 @@ $._select = qwery.noConflict();/*!
       return this.map(function (el) {
         return el.parentNode.removeChild(el);
       });
+    },
+
+    scroll: function (x, y) {
+      var el = this.first();
+      if (x == null || y == null) {
+        return isBody(el) ? getWindowScroll() : { x: el.scrollLeft, y: el.scrollTop };
+      }
+      if (isBody(el)) {
+        window.scrollTo(x, y);
+      } else {
+        x != null && (el.scrollLeft = x);
+        y != null && (el.scrollTop = y);
+      }
+      return this;
     }
 
   };
+
+  function isBody(element) {
+    return element === window || (/^(?:body|html)$/i).test(element.tagName);
+  }
+
+  function getWindowScroll() {
+    return { x: window.pageXOffset || html.scrollLeft, y: window.pageYOffset || html.scrollTop };
+  }
 
   function bonzo(els) {
     return new _bonzo(els);
