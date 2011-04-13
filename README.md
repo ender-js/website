@@ -4,7 +4,7 @@ What is this all about?
 -----------------------
 Ender is an open, powerful, next level JavaScript library composed of application agnostic submodules wrapped in a slick intuitive interface. At only *8k* Ender can help you build anything from small prototypes to providing a solid base for large-scale rich applications on desktop and mobile devices.
 
-    $("p.neat").addClass("ohmy").show();
+    $("p[boosh~=ness]").addClass("clutch").show();
 
 Ender's Jeesh
 -------------

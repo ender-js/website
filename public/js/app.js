@@ -4,8 +4,8 @@ function findPos(obj) {
   var curleft = curtop = 0;
   if (obj.offsetParent) {
     do {
-    	curleft += obj.offsetLeft;
-    	curtop += obj.offsetTop;
+      curleft += obj.offsetLeft;
+      curtop += obj.offsetTop;
     } while (obj = obj.offsetParent);
     return {x: curleft, y:curtop};
   }
@@ -44,10 +44,25 @@ $.domReady(function () {
     sections.push(section);
     section = $('#' + section)[0];
     section && sectionCoords.push(findPos(section).y - 20);
-  })
+  });
 
   processScroll();
   $(window).bind('scroll', processScroll);
   $('nav').bind(buttons, 'click', setButton);
+
+  $('#intro .left').css('position', 'relative').hover(
+    function () {
+      $(this).animate({
+        top: -5,
+        duration: 300
+      });
+    },
+    function () {
+      $(this).animate({
+        top: 0,
+        duration: 300
+      });
+    }
+  );
 
 });
