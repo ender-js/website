@@ -252,9 +252,11 @@ For the individual submodules, see their respective licenses.
 Contributors
 ------------
 
-* ![ded](http://a2.twimg.com/profile_images/1115320538/ded.png)
-  Dustin Diaz
+* Dustin Diaz
   [@ded](https://github.com/ded/ender.js/commits/master?author=ded)
-* ![fat](http://a1.twimg.com/profile_images/1213187079/eightbit-e3950b2f-24ee-4b03-9e1f-7e13c4cd9a68.png)
-  Jacob Thornton
+  ![ded](http://a2.twimg.com/profile_images/1115320538/ded.png)
+  <div class="clear"></div>
+* Jacob Thornton
   [@fat](https://github.com/ded/ender.js/commits/master?author=fat)
+  ![fat](http://a1.twimg.com/profile_images/1213187079/eightbit-e3950b2f-24ee-4b03-9e1f-7e13c4cd9a68.png)
+  <div class="clear"></div>
