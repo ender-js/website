@@ -9,8 +9,11 @@
     {{>menu}}
     {{>header}}
     {{{yield}}}
-    <script src="/js/hijs.js"></script>
+
     <script src="/js/ender.js"></script>
-    <script src="/js/app.js"></script>
+    <script type="text/javascript">
+      $.script(['/js/hijs.js', '/js/app.js']);
+    </script>
+
   </body>
 </html>
