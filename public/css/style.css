@@ -5,13 +5,14 @@ body {
 }
 
 h2 {
-  font-family: "futura-CondensedMedium", futura, helvetica;
+  font-family: "gill sans", "futura-CondensedMedium", futura, helvetica;
   padding: 20px 0 0 0;
-  font-weight: normal;
+  font-weight: 100;
   font-size: 36px;
   margin: 20px 20px 5px;
   text-transform: lowercase;
   border-top: 6px solid #ddd;
+  letter-spacing: -1px;
 }
 
 div + h2 {
