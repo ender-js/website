@@ -31,7 +31,7 @@ function findPos(obj) {
 
 function processScroll(e) {
   var scroll = getScrollXY(), i;
-  //set button
+
   for (i = sectionCoords.length; i--;) {
     if (activeSection != sections[i] && scroll.y > sectionCoords[i] && (!sectionCoords[i + 1] || scroll.y < sectionCoords[i + 1])) {
       activeSection = sections[i];
@@ -39,7 +39,6 @@ function processScroll(e) {
     }
   }
 
-  //set nav pos
   if (scroll.y >= 485 && !fixed) {
     fixed = true;
     nav.css({
@@ -70,7 +69,6 @@ $.domReady(function () {
 
   processScroll();
   $(window).bind('scroll', processScroll);
-
   $('nav').bind(buttons, 'click', setButton);
 
 });

@@ -3,7 +3,7 @@ What is this all about?
 -----------------------
 Ender is an open, powerful, next level JavaScript library composed of application agnostic submodules wrapped in a slick intuitive interface. At only *8k* Ender can help you build anything from small prototypes to providing a solid base for large-scale rich applications on desktop and mobile devices.
 
-    $("p.neat").addClass("ohmy").show("slow"); //<-- classic jquery example will work the same in ender!
+    $("p.neat").addClass("ohmy").show();
 
 Ender's Jeesh
 -------------
@@ -19,8 +19,8 @@ By default, Ender's build consists of these 8 powerful core utilities (we call t
   * and a core set of utilities provided by [underscore](http://documentcloud.github.com/underscore)
   * plus an extension API!
 
-Examples
---------
+What does ender look like?
+--------------------------
 
 <h3>DOM queries</h3>
 
@@ -232,11 +232,11 @@ If you're building a Mobile Webkit or Android application, it may be a good idea
 
 Building a custom platoon
 ------------
-Currently in the works is a command-line interface to building published NPM modules into the Ender.js wrapper. It's next-level future boss. We promise. Check out the [preview video](http://www.vimeo.com/22211892) of this in action. However the short explanation is that you can do this:
+Currently in the works is a command-line interface to building published NPM modules into the Ender.js wrapper. It's super boss. We promise. Check out the [preview video](http://www.vimeo.com/22211892) of this in action. However the short explanation is that you can do this:
 
     $ ender -b qwery,bonzo,bean,underscore
 
-This creates a customized Ender platoon suited to your liking :) It's currently in alpha stages, so please be gentle.
+This creates a customized Ender build suited to your liking :) It's currently in alpha stages, so please be gentle.
 
 <div class="hr" id="about"></div>
 Why all this?
@@ -252,5 +252,9 @@ For the individual submodules, see their respective licenses.
 Contributors
 ------------
 
-* Dustin Diaz [@ded](https://github.com/ded/ender.js/commits/master?author=ded)
-* Jacob Thornton [@fat](https://github.com/ded/ender.js/commits/master?author=fat)
+* ![ded](http://a2.twimg.com/profile_images/1115320538/ded.png)
+  Dustin Diaz
+  [@ded](https://github.com/ded/ender.js/commits/master?author=ded)
+* ![fat](http://a1.twimg.com/profile_images/1213187079/eightbit-e3950b2f-24ee-4b03-9e1f-7e13c4cd9a68.png)
+  Jacob Thornton
+  [@fat](https://github.com/ded/ender.js/commits/master?author=fat)
