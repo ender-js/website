@@ -1,4 +1,3 @@
-// module depencies
 var express = require('express')
   , fs = require('fs')
   , md = require('markdown-js')
