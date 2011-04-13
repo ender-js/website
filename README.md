@@ -1,4 +1,5 @@
 <div id="intro"></div>
+
 What is this all about?
 -----------------------
 Ender is an open, powerful, next level JavaScript library composed of application agnostic submodules wrapped in a slick intuitive interface. At only *8k* Ender can help you build anything from small prototypes to providing a solid base for large-scale rich applications on desktop and mobile devices.
@@ -131,6 +132,7 @@ Utility methods provided by [underscore](http://documentcloud.github.com/undersc
     ender('#boosh a.foo').each(fn);
 
 <div class="hr" id="guide"></div>
+
 The Haps
 --------
 Ender.js pulls together the beauty of well-designed modular software and proves that git submodules can actually work. Thus if one part of the system goes bad or unmaintained, it can be replaced with another with minimal to zero changes to the wrapper (Ender). Furthermore if you want to remove a feature out entirely (like for example, the animation utility), you can use the Ender command utility and compose only the submodules you need.
@@ -150,6 +152,7 @@ Take special note that building with Ender will more than likely require frequen
     $ git submodule update
 
 <div class="hr" id="docs"></div>
+
 Extending Ender
 ---------------
 Extending Ender is where the true power lies! Ender uses your existing [NPM](http://npmjs.org) *package.json* in your project root allowing you to export your extensions into Ender. There are three interfaces allowing you to hook into each piece appropriately.
@@ -239,6 +242,7 @@ Currently in the works is a command-line interface to building published NPM mod
 This creates a customized Ender build suited to your liking :) It's currently in alpha stages, so please be gentle.
 
 <div class="hr" id="about"></div>
+
 Why all this?
 -------------
 Because in the browser - small, loosely coupled modules are the future, and large, tightly-bound monolithic libraries are the past.
@@ -259,4 +263,5 @@ Contributors
 * Jacob Thornton
   [@fat](https://github.com/ded/ender.js/commits/master?author=fat)
   ![fat](http://a1.twimg.com/profile_images/1213187079/eightbit-e3950b2f-24ee-4b03-9e1f-7e13c4cd9a68.png)
+
   <div class="clear"></div>
