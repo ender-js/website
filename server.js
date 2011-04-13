@@ -1,12 +1,13 @@
 var express = require('express')
   , fs = require('fs')
+  , stache = require('stache')
   , md = require('markdown-js')
   , app = express.createServer();
 
 //config
 app.set('view engine', 'mustache')
 app.set("views", __dirname + '/views');
-app.register(".mustache", require('stache'));
+app.register(".mustache", stache);
 app.use(express.static(__dirname + '/public'));
 
 //routes
