@@ -1,3 +1,5 @@
+//Requires selector engine, events, dom untils (qwery, bean, bonzo)
+
 var nav, buttons, fixed, sections = [], sectionCoords = [], activeSection;
 
 function findPos(obj) {
@@ -36,12 +38,13 @@ function setButton() {
 $.domReady(function () {
   nav = $('#nav'), buttons = $('nav a');
 
-  buttons.each(function (button) {
-    var section = $(button).html();
+  for (var i = 0, l = buttons.length; i < l; i++) {
+    var button = buttons[i],
+        section = $(button).html();
     sections.push(section);
     section = $('#' + section)[0];
     section && sectionCoords.push(findPos(section).y - 20);
-  });
+  }
 
   processScroll();
   $(window).bind('scroll', processScroll);
