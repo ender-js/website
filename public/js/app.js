@@ -12,19 +12,17 @@ function findPos(obj) {
 }
 
 function processScroll(e) {
-  var scroll = $(window).scroll(), i;
-
+  var scrollTop = $(window).scrollTop(), i;
   for (i = sectionCoords.length; i--;) {
-    if (activeSection != sections[i] && scroll.y > sectionCoords[i] && (!sectionCoords[i + 1] || scroll.y < sectionCoords[i + 1])) {
+    if (activeSection != sections[i] && scrollTop > sectionCoords[i] && (!sectionCoords[i + 1] || scrollTop < sectionCoords[i + 1])) {
       activeSection = sections[i];
       setButton.call(buttons[i]);
     }
   }
-
-  if (scroll.y >= 485 && !fixed) {
+  if (scrollTop >= 485 && !fixed) {
     fixed = true;
     nav.css({ position: 'fixed',top: 0 });
-  } else if (scroll.y <= 485 && fixed) {
+  } else if (scrollTop <= 485 && fixed) {
     fixed = false;
     nav.attr('style', '');
   }
@@ -35,7 +33,6 @@ function setButton() {
   $(this).addClass('yellow');
 }
 
-//app stuff
 $.domReady(function () {
   nav = $('#nav'), buttons = $('nav a');
 

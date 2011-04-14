@@ -12,7 +12,7 @@ app.use(express.static(__dirname + '/public'));
 
 //routes
 app.get('/', function (req, res) {
-  fs.readFile('README.md', 'utf-8', function (err, data) {
+  fs.readFile('public/js/support/ender/README.md', 'utf-8', function (err, data) {
     if (err) throw err;
     res.render('index', {
       locals: {
@@ -24,5 +24,5 @@ app.get('/', function (req, res) {
 });
 
 //Run
-app.listen(80);
-console.log('Ender site started on: 80')
+app.listen(app.settings.env == 'production' ? 80 : 3000);
+console.log('Ender site started...')

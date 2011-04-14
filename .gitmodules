@@ -1,0 +1,3 @@
+[submodule "public/js/support/ender"]
+	path = public/js/support/ender
+	url = https://github.com/ded/Ender.js
