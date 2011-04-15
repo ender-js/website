@@ -172,6 +172,14 @@ nav a:first-child {
   margin: 0 auto;
 }
 
+/* FIDDLE
+===========*/
+
+#fiddle-example {
+  width: 915px;
+  height: 300px;
+  margin: 0 20px;
+}
 
 /* CONTENT
 ===========*/
