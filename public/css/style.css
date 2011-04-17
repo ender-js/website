@@ -27,11 +27,22 @@ h3 {
   margin-left: 20px;
 }
 
+h3 em {
+  font-weight: normal;
+  font-style: normal;
+  color: #888;
+  font-size: 12px;
+  line-height: 17px;
+  position: relative;
+  top: -2px;
+}
+
 h4 {
   margin-left: 20px;
 }
 
-pre {
+pre, .pre {
+  position:relative;
   padding: 10px 10px 10px 20px;
   background-color:#222;
   font-size:12px;
@@ -189,6 +200,27 @@ nav a:first-child {
   clear:both;
   padding-top:40px;
   background: url('/img/background.jpg');
+}
+
+/* FORM BUILDER
+=================*/
+
+.pre input {
+  background:transparent;
+  border:none;
+  color: #fff;
+  font-sized:15px;
+  font-family: "monaco", monospace;
+  width:370px;
+}
+
+.pre button {
+  position:absolute;
+  right:10px;
+  background: #219195;
+  border: none;
+  color: white;
+  cursor:pointer;
 }
 
 /* COLORS
