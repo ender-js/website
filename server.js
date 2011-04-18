@@ -24,7 +24,7 @@ app.get('/', function (req, res) {
   });
 });
 
-app.get('/download', require('./controllers/download'));
+app.get('/download', require('./lib/download'));
 
 //Run
 app.listen(3000);
