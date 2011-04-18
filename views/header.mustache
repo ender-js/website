@@ -6,11 +6,14 @@
       </section>
       <section class="right">
         <h3>Build only what you need, when you need it. <em>(edit me below!)</em></h3>
-        <form action="/download" method="get">
+        <form id="download" action="/download" method="get">
           <div class="pre">
-            $ <input name="cmd" type="text" value="ender -b qwery klass underscore" />
+            $
+            <span class="yellow">ender</span>
+            <input name="cmd" autocomplete="off" type="text" value="-b qwery klass underscore" />
             <button>build</button>
           </div>
+          <div id='message'>Everythign is fucked</div>
         </form>
         <h3>Lightweight, expressive, familiar.</h3>
 <pre>

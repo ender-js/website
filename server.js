@@ -1,9 +1,7 @@
 var express = require('express')
   , fs = require('fs')
-  , path = require('path')
   , stache = require('stache')
   , md = require('markdown-js')
-  , ender = require('../ender')
   , app = express.createServer();
 
 //config
@@ -26,26 +24,7 @@ app.get('/', function (req, res) {
   });
 });
 
-app.get('/download', function (req, res) {
-  var name = './tmp/ender.' + (+new Date)
-    , filepath = name + '.min.js';
-
-  ender.exec(req.param('cmd'), name, function () {
-    res.download(path.join(__dirname, filepath), 'ender.min.js', function (err) {
-      if (err) throw err;
-      var complete = 0
-        , isComplete = function (err) {
-            if (err) throw err;
-            if (++complete == 2) {
-              console.log('successfully deleted tmp files');
-            }
-        };
-      fs.unlink(name + '.js', isComplete);
-      fs.unlink(filepath, isComplete);
-    });
-  });
-
-});
+app.get('/download', require('./controllers/download'));
 
 //Run
 app.listen(3000);

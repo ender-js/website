@@ -9,9 +9,9 @@
     {{>menu}}
     {{>header}}
     {{{yield}}}
-    <script src="/js/ender.min.js"></script>
+    <script src="/js/ender.js"></script>
     <script type="text/javascript">
-      $.script(['/js/hijs.js', '/js/app.js']);
+      $.require(['/js/hijs.js', '/js/app.js']);
     </script>
   </body>
 </html>

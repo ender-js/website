@@ -209,18 +209,47 @@ nav a:first-child {
   background:transparent;
   border:none;
   color: #fff;
-  font-sized:15px;
+  font-size:12px;
   font-family: "monaco", monospace;
-  width:370px;
+  width:325px;
+  padding:0;
+  margin:0;
 }
 
 .pre button {
   position:absolute;
   right:10px;
+  top: 7px;
   background: #219195;
   border: none;
   color: white;
   cursor:pointer;
+}
+
+#message {
+  display:none;
+}
+
+.success #message, .error #message {
+  display:block;
+  position: absolute;
+  font-size: 10px;
+  left: 0;
+  padding: 2px;
+}
+
+.success #message {
+  color:#219195;
+  background:#d1fcfe;
+}
+
+.error #message {
+  background: #FDE8E7;
+  color: #cc120e;
+}
+
+#download {
+  position:relative;
 }
 
 /* COLORS
