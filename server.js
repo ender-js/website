@@ -3,7 +3,7 @@ var express = require('express')
   , path = require('path')
   , stache = require('stache')
   , md = require('markdown-js')
-  , ender = require('ender')
+  , ender = require('../ender')
   , app = express.createServer();
 
 //config
@@ -48,5 +48,5 @@ app.get('/download', function (req, res) {
 });
 
 //Run
-app.listen(80);
+app.listen(3000);
 console.log('Ender site started...')
