@@ -1,0 +1,3 @@
+[submodule "support/ender"]
+	path = support/ender
+	url = git@github.com:ender-js/Ender.git
