@@ -12,7 +12,7 @@ app.use(express.static(__dirname + '/public'));
 
 //routes
 app.get('/', function (req, res) {
-  fs.readFile('support/ender/README.md', 'utf-8', function (err, data) {
+  fs.readFile('ENDER.md', 'utf-8', function (err, data) {
     if (err) throw err;
     res.render('index', {
       locals: {
