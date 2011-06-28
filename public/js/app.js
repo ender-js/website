@@ -1,53 +1,90 @@
-//Requires selector engine, events, dom untils (qwery, bean, bonzo)
+/**
+  * @FAT + @DED
+  * APP SINGLETON CONTR.
+  * LICENSE MIT
+  * ====================
+  */
 
-var nav, buttons, fixed, sections = [], sectionCoords = [], activeSection;
+var App = {
 
-function findPos(obj) {
-  var curleft = curtop = 0;
-  if (obj.offsetParent) {
-    do {
-      curleft += obj.offsetLeft;
-      curtop += obj.offsetTop;
-    } while (obj = obj.offsetParent);
-    return {x: curleft, y:curtop};
-  }
-}
+  /* LE APP VARS
+    ====================*/
 
-function processScroll(e) {
-  var scrollTop = $(window).scrollTop(), i;
-  for (i = sectionCoords.length; i--;) {
-    if (activeSection != sections[i] && scrollTop > sectionCoords[i] && (!sectionCoords[i + 1] || scrollTop < sectionCoords[i + 1])) {
-      activeSection = sections[i];
-      setButton.call(buttons[i]);
+    $nav: null
+  , $win: null
+  , $buttons: null
+
+  , fixed: null
+  , activeSection: null
+
+  , sections: []
+  , sectionCoords: []
+
+
+  /* LE APP METHODS
+     ====================*/
+
+  , init: function () {
+      var section, i;
+
+      this.$nav = $('#nav');
+      this.$buttons = $('#nav a');
+      this.$win = $(window);
+
+      for (i = 0, l = this.$buttons.length; i < l; i++) {
+        this.sections.push($(this.$buttons[i]).html());
+        section = document.getElementById(this.sections[i]);
+        section && this.sectionCoords.push(this.findPos(section).y - 20);
+      }
+
+      this.processScroll();
+
+      this.$win.bind('scroll', this.processScroll);
+      this.$nav.delegate(this.$buttons, 'click', this.setButton);
     }
-  }
-  if (scrollTop >= 485 && !fixed) {
-    fixed = true;
-    nav.css({ position: 'fixed',top: 0 });
-  } else if (scrollTop <= 485 && fixed) {
-    fixed = false;
-    nav.attr('style', '');
-  }
-}
 
-function setButton() {
-  buttons.attr('class', '');
-  $(this).addClass('yellow');
-}
+  , setButton: function (e) {
+      App.$buttons.attr('class', '');
+      $(this).addClass('yellow');
+    }
+
+  , findPos: function (element) {
+      var curleft = curtop = 0;
+      if (!element.offsetParent) return;
+      do {
+        curleft += element.offsetLeft;
+        curtop += element.offsetTop;
+      } while (element = element.offsetParent);
+      return { x: curleft, y: curtop };
+    }
+
+  , processScroll: function (e) {
+      var i, scrollTop = App.$win.scrollTop();
+
+      for (i = App.sectionCoords.length; i--;) {
+        var isActive = App.activeSection != App.sections[i]
+            && scrollTop > App.sectionCoords[i]
+            && (!App.sectionCoords[i + 1] || scrollTop < App.sectionCoords[i + 1]);
+
+        if (isActive) {
+          App.activeSection = App.sections[i];
+          App.setButton.call(App.$buttons[i]);
+        }
+      }
+
+      if (scrollTop >= 485 && !this.fixed) {
+        App.fixed = true;
+        App.$nav.css({ position: 'fixed'
+        , top: 0
+        });
+      } else if (scrollTop <= 485 && App.fixed) {
+        App.fixed = false;
+        App.$nav.attr('style', '');
+      }
+    }
+
+};
 
 $.domReady(function () {
-  nav = $('#nav'), buttons = $('nav a');
-
-  for (var i = 0, l = buttons.length; i < l; i++) {
-    var button = buttons[i],
-        section = $(button).html();
-    sections.push(section);
-    section = $('#' + section)[0];
-    section && sectionCoords.push(findPos(section).y - 20);
-  }
-
-  processScroll();
-  $(window).bind('scroll', processScroll);
-  $('nav').bind(buttons, 'click', setButton);
-
+  App.init();
 });

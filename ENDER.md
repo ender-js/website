@@ -19,6 +19,8 @@ Ponder this... Ender is unique and important in two key ways:
 
 With Ender, if one part of your library goes bad or unmaintained, it can be replaced with another. Need a specific package version? no big deal. Does your microlib have dependencies? Let us handle that for you too!
 
+<div id="docs"></div>
+
 <div class="hr" id="build"></div>
 
 BUILDING
