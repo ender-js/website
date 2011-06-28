@@ -22,7 +22,7 @@ var App = {
 
 
   /* LE APP METHODS
-     ====================*/
+    ====================*/
 
   , init: function () {
       var section, i;
