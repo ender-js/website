@@ -27,6 +27,13 @@ h3 {
   margin-left: 20px;
 }
 
+.page h3 {
+margin-right: 20px;
+padding-top: 5px;
+border-top: 1px solid #eee;
+color:#FA524F;
+}
+
 h4 {
   margin-left: 20px;
 }

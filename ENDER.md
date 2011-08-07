@@ -1,80 +1,102 @@
 
 <div id="intro"></div>
 
-WELCOME TO YOU'RE "DOOM!"
---------------------------
-Ender is not a JavaScript library in the traditional sense. So don't rush out and try to replace jQuery or MooTools with Ender... It just wouldn't work.... But! **you can** build a library from Ender which will. And you should. right now.
+## AN INTRODUCTION
 
-That's because: *Ender is an open, powerful, micro-to-macro API for composing your own custom JavaScript library; it wraps up application agnostic, independent modules into a slick, intuitive, and familiar interface so you don't have to.*
+*Ender is a full featured package manager for your browser.*<br/>
+It allows you to search, install, manage, and compile javascript packages and their dependencies for your client-side web application. We like to think of it as [NPM](https://github.com/isaacs/npm)'s little sister.
 
-OK, SURE... BUT WHY?
---------------------
-Because in the browser - small, loosely coupled modules are the future, and large, tightly-bound monolithic libraries are the past!
+*Ender is not a JavaScript library*.<br/>
+It's not a jQuery replacement. It's not even a static asset. It's a tool for making the consumption of front-end javascript packages dead simple and incredibly powerful.
 
-Ponder this... Ender is unique and important in two key ways:
 
-1) Ender provides front end developers with a true package management system and the powerful command line tools necessary to back it up... making your library maintenance tasks simple, painless, and fast.
+## WHY?
 
-2) Ender offers a way to bring together the awesome work happening in small frameworks and libraries that otherwise do only one thing, and allows you to mix, match, and customize your own library suited to your individual needs without all the extra cruft that comes with larger libraries.
+In the browser - **small, loosely coupled modules are the future and large, tightly-bound monolithic libraries are the past!**
 
-With Ender, if one part of your library goes bad or unmaintained, it can be replaced with another. Need a specific package version? no big deal. Does your microlib have dependencies? Let us handle that for you too!
+Ender capitalizes on this by offering a unique way to bring together the exciting work happening in javascript packages and allows you to mix, match, and customize your own build, suited to your individual needs, without all the extra cruft that comes with larger libraries.
+
+With Ender, if one library goes bad or unmaintained, it can be replaced with another. Need a specific package version? No problem! Does your package have dependencies? Let us handle that for you too!
 
 <div id="docs"></div>
 
-<div class="hr" id="build"></div>
+<div class="hr"></div>
 
-BUILDING
---------
-Before you do anything, you're going to need to install Ender. Ender is built with NodeJS and leverages NPM heavily for all that slick package management. What this means is that to use Ender you're going to first need to have both [NodeJS](http://nodejs.org) and [NPM](https://github.com/isaacs/npm) installed (if you haven't already).
+## OVERVIEW
 
-Once you have those, simply run:
+
+    $ ender build backbone
+    // installs:
+    └─┬ backbone@0.5.2 - Give your JS App some Backbone with Models, Views, Collections, and Events.
+      └── underscore@1.1.7 - JavaScript's functional programming helper library.
+
+    $ ender add domready qwery
+    // installs:
+    ├── domready@0.2.5 - bullet proof DOM ready method
+    └── qwery@2.1.2 - blazing fast CSS1|2|3 query selector engine
+
+    $ ender remove qwery
+    // uninstalls:
+    └── qwery@2.1.2 - blazing fast CSS1|2|3 query selector engine
+
+    $ ender ls
+    // info on current build:
+    Your current build type is "build"
+    Your current library size is 20.5 kb
+
+    Active packages:
+    ├── domready@0.2.5 - bullet proof DOM ready method
+    └─┬ backbone@0.5.2 - Give your JS App some Backbone with Models, Views, Collections, and Events.
+      └── underscore@1.1.7 - JavaScript's functional programming helper library.
+
+    $ ender help
+    // quick doc reference
+
+## INSTALLATION
+
+When installing, first make sure you have a working copy of the latest stable version of both [Node.js](http://nodejs.org) and [NPM](https://github.com/isaacs/npm). You can then install Ender with the following single line:
 
     $ npm install ender -g
 
-This will install Ender as a CLI (command line) tool. So let's get to it...
+Once installed, you should have access to the `ender` command.
 
-BUILD METHODS
--------------
+## USING ENDER
 
-Ender provides a whole slew of methods for building, updating, and slimming down your libraries. Let's take a look...
+The `ender` command provides the following actions:
 
-<h3>Build (<code>-b, build</code>)</h3>
+### BUILD
 
-As the name suggests, <code>build</code> is responsible for building your libraries. It's the initial method you run when first instantiating your ender library. To use it, navigate to the directory you would like to build into and run something like:
+Installs and assembles javascript packages.
 
-    $ ender build scriptjs backbone
+    ender build [foo, bar, ...]
 
-When building you can include as many packages as you like. You can specify packages by name if they are published to npm or provide a relative path like this:
+#### arguments
 
-    $ ender build ../../jeesh
+Accepts a list of npm package names and/or paths to local packages. If left blank, the directory root will be used.
 
-*note: Just remember the path specified needs a package.json!*
+    $ ender build scriptjs backbone ../../myLocalPackage
 
-This will generate three things of interest to you:
+*note: When providing a path, the package directory must contain a valid package.json file*
 
-  - an uncompressed ender.js file,
-  - a compressed ender.min.js
-  - a node_modules dir (if there wasn't already one present).
+#### output
 
-With <code>build</code>, the ender.js files will include all packages inlined for his development pleasure.
+- **ender.js** - an uncompressed file containing assembled packages
+- **ender.min.js** - a copy of ender.js, minified by uglify-js
+- **local copies of specified packages** - located in the node_modules directory, these are used for dependency management
 
-*note: The node_modules folder is the directory NPM uses for installing packages and what ender uses for managing your microlibs.*
+#### options
 
-Build also has two super useful options (when you're gettin' all fancy)!
+- **noop** - this outputs the assembled packages without the ender-js client api.
+- **output** - this outputs your assembled packages to a specified path and filename.
 
-**noop** (<code>--noop, --no, -x</code>) -- this builds files without the ender-js client api
 
-    $ ender build backbone --noop
 
-**output** (<code> --output, --out, -o</code>) -- this will build your files to a specified path.
 
-    $ ender build qwery backbone -o ../path/to/dir/myLibrary
 
-the above Ender command would create a myLibrary.js and myLibrary.min.js file in the dir directory.
 
-*note: You can specify multiple options at once like this:*
 
-    $ ender build backbone --noop -o ../path/to/dir/myLibrary
+
+
 
 
 <h3>Search (<code>search</code>)</h3>
