@@ -4,7 +4,7 @@
 ## AN INTRODUCTION
 
 *Ender is a full featured package manager for your browser.*<br/>
-It allows you to search, install, manage, and compile javascript packages and their dependencies for your client-side web application. We like to think of it as [NPM](https://github.com/isaacs/npm)'s little sister.
+It allows you to search, install, manage, and compile front-end javascript packages and their dependencies for the web. We like to think of it as [NPM](https://github.com/isaacs/npm)'s little sister.
 
 *Ender is not a JavaScript library*.<br/>
 It's not a jQuery replacement. It's not even a static asset. It's a tool for making the consumption of front-end javascript packages dead simple and incredibly powerful.
@@ -24,6 +24,8 @@ With Ender, if one library goes bad or unmaintained, it can be replaced with ano
 
 ## OVERVIEW
 
+
+    // ON THE COMMAND LINE
 
     $ ender build backbone
     // installs:
@@ -49,8 +51,19 @@ With Ender, if one library goes bad or unmaintained, it can be replaced with ano
     └─┬ backbone@0.5.2 - Give your JS App some Backbone with Models, Views, Collections, and Events.
       └── underscore@1.1.7 - JavaScript's functional programming helper library.
 
-    $ ender help
-    // quick doc reference
+    // IN THE BROWSER
+
+    // Require packages to access them as raw packages
+    var _ = require('underscore')
+      , _.each([1, 2, 3], alert)
+
+    // Access methods augmented directly to the $
+    $.ready(function () {
+      $([1, 2, null, 3])
+        .filter(function (item) { return item })
+        .each(alert)
+    })
+
 
 ## INSTALLATION
 
@@ -60,163 +73,160 @@ When installing, first make sure you have a working copy of the latest stable ve
 
 Once installed, you should have access to the `ender` command.
 
-## USING ENDER
+## USING ENDER FROM THE COMMAND LINE
 
 The `ender` command provides the following actions:
 
 ### BUILD
 
-Installs and assembles javascript packages.
+Installs and assembles javascript packages and their dependencies.
 
     ender build [foo, bar, ...]
 
 #### arguments
 
 Accepts a list of npm package names and/or paths to local packages. If left blank, the directory root will be used.
+You can specify a version by suffixing a package with `@` followed by a version number.
 
-    $ ender build scriptjs backbone ../../myLocalPackage
+    $ ender build scriptjs backbone@0.1.0 ../../myLocalPackage
 
 *note: When providing a path, the package directory must contain a valid package.json file*
 
 #### output
 
-- **ender.js** - an uncompressed file containing assembled packages
-- **ender.min.js** - a copy of ender.js, minified by uglify-js
-- **local copies of specified packages** - located in the node_modules directory, these are used for dependency management
+ * **ender.js** - an uncompressed file containing assembled packages
+ * **ender.min.js** - a copy of ender.js, minified by uglify-js
+ *  **local copies of specified packages** - located in the node_modules directory, these are used for dependency management
 
 #### options
 
-- **noop** - this outputs the assembled packages without the ender-js client api.
-- **output** - this outputs your assembled packages to a specified path and filename.
+ * **noop** - this outputs the assembled packages without the ender-js client api.
+ * **output** - this outputs your assembled packages to a specified path and filename.
+ * **help** - gives you more info on the build method.
 
+<pre><code>$ ender build underscore --noop --output ./underscore</code></pre>
 
+### ADD
 
+Installs and appends javascript packages and their dependencies to an already assembled library.
 
+    $ ender add [foo, bar, ...]
 
+#### arguments
 
+Accepts a list of npm package names and/or paths to local packages.
 
+    $ ender add scriptjs
 
+#### output
 
+ * **ender.js && ender.min.js** - Appends package code to already present ender builds
+ * **local copies of specified packages** - located in the node_modules directory, these are used for dependency management
 
+#### options
 
-<h3>Search (<code>search</code>)</h3>
+ * **use** - Specify which file to append package code to.
+ * **help** - gives you more info on the add method.
 
-<code>search</code> looks up keywords against NPM's registry and surfaces the most relevant packages. It provides results for known ender compatible packages and also generic npm matches (which may or may not be ender compatible).
+<pre><code>$ ender add bean --use ./ender/myLib</code></pre>
 
-    $ ender search underscore
+*note: You don't need to specify .js when referencing a javascript file here*
 
-<h3>Info (<code>-i, info, list, ls</code>)</h3>
+### SET
 
-<code>info</code> will give you the current status of your built Ender library. This information includes
+Sets a javascript packages to specific version.
 
-  - the build type
-  - gzipped file size
-  - a list of all the current packages (with version numbers, descriptions, and dependency tree).
+    $ ender set foo@0.0.1
 
-To run info, change directories into your ender installation and type:
+#### arguments
 
-    $ ender info
+Accepts a list of npm package names and/or paths to local packages.
 
-By default ender info will look for a local ender.js or ender.min.js file. However, if you are in a different dir, or if you have outputed your ender library to a different file name you must use the --use option!
+    $ ender add scriptjs@0.1.0
 
-**use** (<code>--use, -u</code>) -- tell ender which file to operate on
+### REMOVE
 
-    $ ender info --use ../../workspace/fat/fats-library
+Uninstalls and removes javascript packages and their dependencies from an already assembled library.
 
-<h3>Add (<code>add, set</code>)</h3>
+    $ ender remove [foo, bar, ...]
 
-It's not always possible to know which packages you may or may not want when beginning a new project and ender wants to encourage you to be as agile as possible! Build your initial library light and push in more packages whenever you run into the need. To do this, use Ender's <code>add</code> method. Run:
+#### arguments
 
-    $ ender add backbone
+Accepts a list of npm package names and/or paths to local packages.
 
-The above will append backbone to your existing ender builds. You may also use <code>set</code> to update (or rollback) a package to a particular version:
+    $ ender remove domready
 
-    $ ender set bean@0.0.3
+#### options
 
-By default <code>add</code> will operate on the local ender.js and ender.min.js files. However, if you would like to specify a different location or an output of a different name just use the <code>use</code> flag.
+ * **use** - Specify which file to remove package code from.
+ * **help** - gives you more info on the remove method.
 
-**use** (<code>--use, -u</code>) -- tell ender which file to operate on
+<pre><code>$ ender remove bean --use ./ender/myLib</code></pre>
 
-    $ ender add underscore --use ./ender/library
+### REFRESH
 
-<h3>Remove (<code>-d, remove</code>)</h3>
-
-Removing packages is sometimes even more important than pushing them on! To remove a package from your current build, simply run:
-
-    $ ender remove backbone
-
-By default <code>remove</code> will operate on the local ender.js and ender.min.js files. However, if you would like to specify a different location or an output of a different name just use the <code>use</code> flag.
-
-**use** (<code>--use, -u</code>) -- tell ender which file to operate on
-
-    $ ender remove underscore --use ./ender/library
-
-<h3>Refresh (<code> refresh</code>)</h3>
-
-The <code>refresh</code> method will refresh your library with the latest stable builds from your activated packages. Just run:
+Rebuilds and reinstalls packages.
 
     $ ender refresh
 
-By default <code>refresh</code> will operate on the local ender.js and ender.min.js files. However, if you would like to specify a different location or an output of a different name just use the <code>use</code> flag.
+#### options
 
-**use** (<code>--use, -u</code>) -- tell ender which file to operate on
+ * **use** - Specify which file to refresh.
+ * **help** - gives you more info on the refresh method.
 
-    $ ender refresh --use ./ender/library
+<pre><code>$ ender refresh --use ./ender/myLib</code></pre>
 
-<h3>Compile</h3>
+### COMPILE
 
-Allows you to compile your application along-side your ender installation using the Google Closure Compiler.
+Shortcut for compiling code with google closure compiler.
 
-    $ ender compile header.js footer.js app.js
+#### arguments
 
-<h3>Help (help)</h3>
+Accepts file paths.
 
-<code>help</code>, as you might expect, gives you a simple run through of the available methods.
+    $ ender compile ./header.js ./footer.js ./my/app.js
 
-    $ ender help
+### INFO
 
+Provides the current status of your built Ender library. This information includes
 
-VERSIONS
---------
+ * the build type
+ * gzipped file size
+ * a list of all the current packages (with version numbers, descriptions, and dependency tree).
 
-Ender supports package versioning through npm. To install a project at a specific version simply include the version number, prefixed by an '@':
+<pre><code>$ ender info</code></pre>
 
-    $ ender build qwery bean@0.0.2 underscore
+#### options
 
-To remove a versioned package no need to include the version number
+ * **use** - tell ender which file to operate on
 
-    $ ender remove bean
+<pre><code>$ ender info --use ../../workspace/fat/fats-library</code></pre>
 
-Also, as you might expect, you can also include versions when adding packages to an already existing build:
+### SEARCH
 
-    $ ender add underscore@0.1.0
+<code>search</code> looks up keywords against NPM's registry and surfaces the most relevant packages. It promotes results for known ender compatible packages and also generic npm matches).
 
+    $ ender search underscore
 
-DEPENDENCIES
-------------
+### HELP
 
-Ender also supports dependency management. So no need to write:
+Gives a simple run through of the available methods and documentation.
 
-    $ ender -b backbone underscore
+    $ ender
 
-Instead! Just run...
+## BUILDING AND PUBLISHING YOUR OWN PACKAGES
 
-    $ ender -b backbone
+Because Ender relies on NPM for package management -- extending your ender library is as simple as publishing to NPM.
 
-and underscore will be automatically built into your library! To get a full list of library dependencies, just run <code> $ ender list </code> at any time!
+### PACKAGE.JSON
 
-BUILDING YOUR OWN PACKAGES
---------------------------
-Because Ender relies on NPM for package management -- extending your ender library is as simple as publishing to NPM -- let's check it out.
-
-<h3>package.json</h3>
-
-If you haven't already registered your project with NPM, create a file called *package.json* in your package root. A completed [package file](http://wiki.commonjs.org/wiki/Packages/1.0) should look something like this:
+If you haven't already registered your project with NPM, create a file called *package.json* in your package root. A completed [package file](http://wiki.commonjs.org/wiki/Packages/1.0) might look something like this:
 
     {
       "name": "blamo",
       "description": "a thing that blams the o's",
       "version": "1.0.0",
+      "keywords": ['blamo', 'ender']
       "homepage": "http://blamo-widgets.com",
       "authors": ["Mr. Blam", "Miss O"],
       "repository": {
@@ -232,35 +242,83 @@ If you haven't already registered your project with NPM, create a file called *p
 
 Have a look at the [Qwery package.json file](https://github.com/ded/qwery/blob/master/package.json) to get a better idea of this in practice.
 
-An important thing to note in this object above is the special ender property <code>ender</code>. This property points to your *bridge* file, an integration file which Ender uses to connect your package code with the ender-js object. If you don't provide this integration file, or if you're trying to include a package which wasn't intended to work with Ender, no worries! Ender will automatically default to a [CommonJS](http://wiki.commonjs.org/wiki/Modules/1.1) module integration and add the exported methods directly to ender as top level methods. Alternatively, you may specify <code> "noop" </code> for the ender integration, and this will tell ender to not try to integrate it with the ender-js lib.
+#### Ender Specific Practices
 
+ * Add the `ender` keyword to your package.json to get promoted by ender search as a compatible package.
+ * Add a bridge file for integrating with the ender client api by specifying an ender param.
+ * you may specify `"noop"` for the ender param to tell ender to not try to integrate it with the ender client api.
 
-<h3>The bridge</h3>
+### THE BRIDGE
 
-The bridge is an optional javascript integration file used to connect your code with the ender-js api. The ender-js api is detailed in the integration docs.
-<div class="hr" id="integrate"></div>
+The bridge is an optional javascript integration file used to integrate your code with the ender client api.
 
-INTEGRATING
------------
-The front end API provided by [ender-js](http://github.com/ender-js/ender-js) is what glues together and ultimately offers cohesion and a sense of familiarity to the different packages built into your library by Ender. It's simple, elegant, and super flexible. Let's take a look how you can leverage it, if you're interested in packaging your own stuff!
+## THE ENDER CLIENT API
 
-<h3>Top level methods</h3>
+The ender client api offers two powerful ways to interact with your javascript packages, a module API which is based on [CommonJS Modules spec v1.1](http://wiki.commonjs.org/wiki/Modules/1.1) and a heavily augmented $ namespace (like jquery).
 
-To create top level methods on the ender-js object ($) you can hook into it by calling the <code>ender</code> method:
+### REQUIRE
+
+Returns a raw exported javascript package.
+
+    var myPackage = require('myPackage');
+
+#### arguments
+
+A package name.
+
+    var _ = require('underscore'); //return the underscore object
+
+#### examples
+
+If you were to run the following build command <code>ender build backbone</code>, you could then access both backbone and underscore from your browser like this:
+
+    var backbone = require('backbone')
+      , _ = require('underscore');
+
+    backbone.Models(...)
+    _.each(...)
+
+#### pro tip
+
+Ender's module support is also great when you run into libs which are competing for namespace on the $. For example, if package "foo" and package "bar" both expose a method `baz` -- you could use `require` to gain access to the method being overridden -- as well as set which method you would prefer to be on ender's internal chain.
+
+    $.baz() //executes bar's method baz
+
+    $.ender({ baz: require('foo').baz }); // sets $.baz to be foo's method baz
+
+    require('bar').baz() //bar's baz is still accessible at any time.
+
+### PROVIDE
+
+Registers a new public package.
+
+    provide("myPackage", myPackageObj);
+
+#### arguments
+
+A package name and a value to store as the package.
+
+    provide('underscore', _);
+
+*note: Ender automatically wraps all command line installed packages in a closure and makes them available in this way. Because of this, most modules will not be accessible directly in the global scope -- **this of course is great news!***
+
+### $.ENDER
+
+Augments arguments onto the ender client object ($).
+
+#### arguments
+
+An object to augment onto the ender $.
+An optional boolean value -- if true, the object will be added to the Internal chain.
 
     $.ender({
       myUtility: myLibFn
-    });
+    })
 
-The above code would provide <code>$.myUtility()</code>
+    $.myUtility()
 
-<h3>The Internal chain</h3>
 
-Another common desire for developers is to be able hook into the internal collection chain. To do this, simply call the same <code>ender</code> method above, but pass <code>true</code> as the second argument:
-
-    $.ender(myExtensions, true);
-
-Within the scope of your extension methods, the internal prototype will be exposed to the developer using the <code>this</code> context representing the node collection. This looks something like this in practice:
+*note: Within the scope of your extension methods, the internal prototype will be exposed to the developer using the <code>this</code> context representing the node collection.*
 
     $.ender({
       rand: function () {
@@ -270,137 +328,84 @@ Within the scope of your extension methods, the internal prototype will be expos
 
     $('p').rand();
 
-You might consider having a look at how the [Bonzo DOM utility](https://github.com/ded/bonzo/blob/master/src/ender.js) utilizes this feature.
 
-<h3>Selector Engine API</h3>
+### $._select
 
-Ender-js also exposes a unique privileged variable called <code>$._select</code>, which allows you to set the ender-js selector engine. Setting the selector engine provides ender-js with the $ method, like this:
+Set the selector engine for the $ object.
 
-    $('#foo .bar')
+#### arguments
 
-Setting the selector engine is done like so:
+A method to be used as the selector engine.
 
     $._select = mySelectorEngine;
 
-You can see it in practice in [Qwery](https://github.com/ded/qwery/blob/master/src/ender.js)
+    $('#foo .bar');
 
-This is great news if you're building a Mobile Webkit or Android application, simply set it to <code>querySelectorAll</code>:
+*note: You can see it in practice in [Qwery](https://github.com/ded/qwery/blob/master/src/ender.js)*
+
+#### example
+
+If you're building a Mobile Webkit or Android application, you might want to set it simply to <code>querySelectorAll</code>.
 
     $._select = function (selector, root) {
       return (root || document).querySelectorAll(selector);
     });
 
-<h3>CommonJS like Module system</h3>
+## THE JEESH
 
-Ender also exposes a module API which is based on [CommonJS Modules spec v1.1](http://wiki.commonjs.org/wiki/Modules/1.1). There are two methods it exposes to do this.
+The Jeesh is the official starter pack for ender. At only *7.5k* the Jeesh can help you build anything from small prototypes to providing a solid base for large-scale rich application for desktop and mobile devices. At it's core, it's a collection of packages that we've found particularly useful for major use-case development endeavors -- but we encourage use to <code>add</code> and <code>remove</code> packages to really make it your own. Currently, the Jeesh includes:
 
-The first method is <code>require</code>. Require takes a string which corresponds to a package name and returns a package object. If no registered package object is found, require will try looking in the global scope (on the window object). Using the require method looks like this:
-
-    var _ = require('underscore'); //return the underscore object
-
-The second method is <code>provide</code>. Provide is used internally by ender to register a package (this happens automatically when building with Ender). However, you are free to use the provide method in your own code if you would like to register an object from outside the Ender built file. The provide method looks like this:
-
-    provide("myPackage", myPackageObj);
-
-These methods are particularly useful when working with microlibs which are already CommonJS compliant (like underscore, backbone, etc.).
-
-Again, when building with Ender, all packages with CommonJS exports will automatically be made available via the require method. It's important to note here that because of this, these modules will not be accessible directly in the global scope -- *this of course is great news!*
-
-So, if you were to run the following build command <code>ender build backbone</code>, you could then access both backbone and underscore from your lib like this:
-
-    var backbone = require('backbone')
-      , _ = require('underscore');
-
-    backbone.Models(...)
-    _.each(...)
-
-Ender's module support is also great when you run into libs which are competing for method names on the $ namespace. For example, if microlib "foo" and microlib "bar" both expose a method <code>baz</code> -- you could use require to gain access to the method being overridden -- as well as set which method you would prefer to be on ender's internal chain... for example:
-
-    $.baz() //executes bar's method baz
-
-    $.ender({baz: require('foo').baz}); // sets $.baz to be foo's method baz
-    $.ender({baz: require('bar').baz}); // changes $.baz back to bar's method baz
-
-    require('foo').baz() //foo's baz is still accessible at any time.
-<div class="hr" id="jeesh"></div>
-
-THE JEESH
----------
-
-The Jeesh is like a starter pack for ender. At only *7.5k* the Jeesh can help you build anything from small prototypes to providing a solid base for large-scale rich application for desktop and mobile devices. At it's core, it's a collection of packages that we've found particularly useful for major use-case development endeavors -- but we encourage use to <code>add</code> and <code>remove</code> packages to really make it your own. Currently, the Jeesh includes:
-
-  * domReady - a cross-browser [domReady](github.com/ded/domready)
-  * Qwery - a fast light-weight [selector engine](https://github.com/ded/qwery)
-  * Bonzo - a bullet-proof [DOM utility](https://github.com/ded/bonzo)
-  * Bean - a multi-platform [Event provider](https://github.com/fat/bean)
-
-BUILDING
---------
-
-To build the jeesh... just run:
-
-    ender -b jeesh
+ * domReady - a cross-browser [domReady](github.com/ded/domready)
+ * Qwery - a fast light-weight [selector engine](https://github.com/ded/qwery)
+ * Bonzo - a bullet-proof [DOM utility](https://github.com/ded/bonzo)
+ * Bean - a multi-platform [Event provider](https://github.com/fat/bean)
 
 
-WHAT DOES THIS SETUP LOOK LIKE?
--------------------------------
+### WHAT DOES THIS SETUP LOOK LIKE?
 
-<h3>domready</h3>
+#### domready
 
     $.domReady(function () {...})
 
-<h3>DOM queries</h3>
+#### DOM queries
 
     $('#boosh a[rel~="bookmark"]').each(function (el) { ... });
 
-<h3>Manipulation</h3>
+#### Manipulation
 
     $('#boosh p a[rel~="bookmark"]').hide().html('hello').css({
       color: 'red',
       'text-decoration': 'none'
     }).addClass('blamo').after('✓').show();
 
-<h3>Events</h3>
+#### Events
 
     $('#content a').bind('keydown input', handler);
     $('#content a').emit('customEvent');
     $('#content a').remove('click.myClick');
 
-<h3>No Conflict</h3>
-
-    var ender = $.noConflict(); // return '$' back to its original owner
-    ender('#boosh a.foo').each(fn);
-
-
-GETTING STARTED WITH THE JEESH
-------------------------------
+### TRY IT OUT?
 If you're looking to test drive this setup, have a play with [the compiled source](http://ender-js.s3.amazonaws.com/ender.min.js)
 <iframe id="fiddle-example" src="http://jsfiddle.net/yakWA/2/embedded/"></iframe>
 <div class="hr" id="about"></div>
 
-ABOUT THIS PROJECT
-------------------
+## ABOUT THIS PROJECT
+
 We would love to hear how you're using ender or why you're not. What you love... what you hate... And we would love all the help we can get! Got a great idea? Open an issue, submit a pull request, or [message us on twitter](http://twitter.com/intent/tweet?text=@fat%20@ded%20-%20I'm%20using%20ender.%20Check%20it%20out%20at%20http://)!
 
-LICENSE
--------
+## LICENSE
 Ender is licensed under MIT - *copyright 2011 Dustin Diaz & Jacob Thornton*
 
 For the individual modules, see their respective licenses.
 
-CONTRIBUTORS
-------------
+## CONTRIBUTORS
 
-* Dustin Diaz
-  [@ded](https://github.com/ender-js/Ender/commits/master?author=ded)
-  ![ded](http://a2.twimg.com/profile_images/1115320538/ded.png)
-  <div class="clear"></div>
-* Jacob Thornton
-  [@fat](https://github.com/ender-js/Ender/commits/master?author=fat)
-  ![fat](http://a1.twimg.com/profile_images/1213187079/eightbit-e3950b2f-24ee-4b03-9e1f-7e13c4cd9a68.png)
+ * Dustin Diaz
+   [@ded](https://github.com/ender-js/Ender/commits/master?author=ded)
+   ![ded](http://a2.twimg.com/profile_images/1115320538/ded.png)
+   <div class="clear"></div>
+ * Jacob Thornton
+   [@fat](https://github.com/ender-js/Ender/commits/master?author=fat)
+   ![fat](http://a1.twimg.com/profile_images/1213187079/eightbit-e3950b2f-24ee-4b03-9e1f-7e13c4cd9a68.png)
 
 <div class="clear"></div>
-
-P.S.
----
-that's correct, [you're doom!](http://blog.urbanbohemian.com/2009/04/08/5201/)
