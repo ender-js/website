@@ -124,9 +124,9 @@ You can specify a version by suffixing a package with `@` followed by a version 
 
 #### options
 
- * » **noop** - this outputs the assembled packages without the ender-js client api.
- * » **output** - this outputs your assembled packages to a specified path and filename.
- * » **help** - gives you more info on the build method.
+ * » **--noop** - this outputs the assembled packages without the ender-js client api.
+ * » **--output** - this outputs your assembled packages to a specified path and filename.
+ * » **--help** - gives you more info on the build method.
 
 <p id="add"></p>
 
@@ -149,8 +149,8 @@ Accepts a list of npm package names and/or paths to local packages.
 
 #### options
 
- * »  **use** - Specify which file to append package code to.
- * »  **help** - gives you more info on the add method.
+ * »  **--use** - Specify which file to append package code to.
+ * »  **--help** - gives you more info on the add method.
 
 *note: You don't need to specify .js when referencing a javascript file here*
 
@@ -184,8 +184,8 @@ Accepts a list of npm package names and/or paths to local packages.
 
 #### options
 
- * »  **use** - Specify which file to remove package code from.
- * »  **help** - gives you more info on the remove method.
+ * »  **--use** - Specify which file to remove package code from.
+ * »  **--help** - gives you more info on the remove method.
 
 <p id="refresh"></p>
 
@@ -197,8 +197,8 @@ Rebuilds and reinstalls packages.
 
 #### options
 
- * »  **use** - Specify which file to refresh.
- * »  **help** - gives you more info on the refresh method.
+ * »  **--use** - Specify which file to refresh.
+ * »  **--help** - gives you more info on the refresh method.
 
 <p id="compile"></p>
 
@@ -222,13 +222,13 @@ Provides the current status of your built Ender library. This information includ
 
 #### options
 
- * » **use** - tell ender which file to operate on
+ * » **--use** - tell ender which file to operate on
 
 <p id="search"></p>
 
 ### SEARCH
 
-<code>search</code> looks up keywords against NPM's registry and surfaces the most relevant packages. It promotes results for known ender compatible packages and also generic npm matches).
+Looks up keywords against NPM's registry and surfaces the most relevant packages. It promotes results for known ender compatible packages and also generic npm matches).
 
     $ ender search underscore
 
@@ -434,11 +434,26 @@ The Jeesh is the official starter pack for ender. At only *7.5k* the Jeesh can h
 ### TRY IT OUT
 If you're looking to test drive this setup, have a play with [the compiled source](http://ender-js.s3.amazonaws.com/ender.min.js)
 <iframe id="fiddle-example" src="http://jsfiddle.net/yakWA/2/embedded/"></iframe>
+
+<div class="hr" id="learn"></div>
+
+## LEARNING ENDER
+
+Instructional videos and other cool stuff for learning about Ender.
+
+### Getting Started with Ender
+
+  <iframe src="http://player.vimeo.com/video/23836209?portrait=0" width="640" height="360" frameborder="0"></iframe>
+
+### Building an Ender Module
+
+  <iframe src="http://player.vimeo.com/video/24296635?portrait=0" width="640" height="360" frameborder="0"></iframe>
+
 <div class="hr" id="about"></div>
 
 ## ABOUT THIS PROJECT
 
-We would love to hear how you're using ender or why you're not. What you love... what you hate... And we would love all the help we can get! Got a great idea? Open an issue, submit a pull request, or [message us on twitter](http://twitter.com/intent/tweet?text=@fat%20@ded%20-%20I'm%20using%20ender.%20Check%20it%20out%20at%20http://)!
+We would love to hear how you're using ender or why you're not. What you love... what you hate... And we would love all the help we can get! Got a great idea? Open an issue, submit a pull request, follow @ender, or [message us on twitter](http://twitter.com/intent/tweet?text=@fat%20@ded%20-%20I'm%20using%20ender.%20Check%20it%20out%20at%20http://)!
 
 ## LICENSE
 Ender is licensed under MIT - *copyright 2011 Dustin Diaz & Jacob Thornton*

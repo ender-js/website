@@ -27,6 +27,12 @@ height: 15px;
 margin:20px 20px 10px 20px;
 }
 
+.page iframe {
+display:block;
+margin: 0 auto;
+border:10px solid #eee;
+}
+
 /* HEADINGS
 ===========*/
 
@@ -51,6 +57,10 @@ font-size: 18px;
 font-family: helvetica;
 margin-bottom:5px;
 margin-left: 20px;
+}
+
+h3 a {
+font-weight:normal;
 }
 
 .page h3 {
@@ -217,7 +227,7 @@ margin: 0 auto;
 ===========*/
 
 #fiddle-example {
-width: 915px;
+width: 900px;
 height: 300px;
 margin: 0 20px;
 }
