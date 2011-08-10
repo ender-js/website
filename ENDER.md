@@ -22,8 +22,37 @@ With Ender, if one library goes bad or unmaintained, it can be replaced with ano
 
 <div class="hr"></div>
 
-## OVERVIEW
+## DOCUMENTATION CONTENTS
 
+<div class="doc-contents"></div>
+
+ * » [overview](#overview)
+ * » [installation](#installation)
+ * » [the ender command line interface](#cli)
+  - ├ [build](#build)
+  - ├ [add](#add)
+  - ├ [set](#set)
+  - ├ [remove](#remove)
+  - ├ [refresh](#refresh)
+  - ├ [compile](#compile)
+  - ├ [info](#info)
+  - ├ [search](#search)
+  - └ [help](#help)
+ * » [building and publishing your own packages](#publishing)
+  - ├ [package.json](#packagejson)
+  - └ [the bridge](#bridge)
+ * » [the ender client api](#client)
+  - ├ [require](#require)
+  - ├ [provide](#provide)
+  - ├ [$.ender](#ender)
+  - └ [$._select](#_select)
+ * » [the jeesh](#jeesh)
+  - ├ [what does this setup look like?](#jeeshoverview)
+  - └ [try it out](#tryit)
+
+<p id="overview"></p>
+
+## OVERVIEW
 
     // ON THE COMMAND LINE
 
@@ -41,16 +70,6 @@ With Ender, if one library goes bad or unmaintained, it can be replaced with ano
     // uninstalls:
     └── qwery@2.1.2 - blazing fast CSS1|2|3 query selector engine
 
-    $ ender ls
-    // info on current build:
-    Your current build type is "build"
-    Your current library size is 20.5 kb
-
-    Active packages:
-    ├── domready@0.2.5 - bullet proof DOM ready method
-    └─┬ backbone@0.5.2 - Give your JS App some Backbone with Models, Views, Collections, and Events.
-      └── underscore@1.1.7 - JavaScript's functional programming helper library.
-
     // IN THE BROWSER
 
     // Require packages to access them as raw packages
@@ -64,6 +83,7 @@ With Ender, if one library goes bad or unmaintained, it can be replaced with ano
         .each(alert)
     })
 
+<p id="installation"></p>
 
 ## INSTALLATION
 
@@ -73,9 +93,13 @@ When installing, first make sure you have a working copy of the latest stable ve
 
 Once installed, you should have access to the `ender` command.
 
+<p id="cli"></p>
+
 ## USING ENDER FROM THE COMMAND LINE
 
 The `ender` command provides the following actions:
+
+<p id="build"></p>
 
 ### BUILD
 
@@ -94,17 +118,17 @@ You can specify a version by suffixing a package with `@` followed by a version 
 
 #### output
 
- * **ender.js** - an uncompressed file containing assembled packages
- * **ender.min.js** - a copy of ender.js, minified by uglify-js
- *  **local copies of specified packages** - located in the node_modules directory, these are used for dependency management
+ * » **ender.js** - an uncompressed file containing assembled packages
+ * » **ender.min.js** - a copy of ender.js, minified by uglify-js
+ * » **local copies of specified packages** - located in the node_modules directory, these are used for dependency management
 
 #### options
 
- * **noop** - this outputs the assembled packages without the ender-js client api.
- * **output** - this outputs your assembled packages to a specified path and filename.
- * **help** - gives you more info on the build method.
+ * » **noop** - this outputs the assembled packages without the ender-js client api.
+ * » **output** - this outputs your assembled packages to a specified path and filename.
+ * » **help** - gives you more info on the build method.
 
-<pre><code>$ ender build underscore --noop --output ./underscore</code></pre>
+<p id="add"></p>
 
 ### ADD
 
@@ -120,17 +144,17 @@ Accepts a list of npm package names and/or paths to local packages.
 
 #### output
 
- * **ender.js && ender.min.js** - Appends package code to already present ender builds
- * **local copies of specified packages** - located in the node_modules directory, these are used for dependency management
+ * »  **ender.js && ender.min.js** - Appends package code to already present ender builds
+ * »  **local copies of specified packages** - located in the node_modules directory, these are used for dependency management
 
 #### options
 
- * **use** - Specify which file to append package code to.
- * **help** - gives you more info on the add method.
-
-<pre><code>$ ender add bean --use ./ender/myLib</code></pre>
+ * »  **use** - Specify which file to append package code to.
+ * »  **help** - gives you more info on the add method.
 
 *note: You don't need to specify .js when referencing a javascript file here*
+
+<p id="set"></p>
 
 ### SET
 
@@ -143,6 +167,8 @@ Sets a javascript packages to specific version.
 Accepts a list of npm package names and/or paths to local packages.
 
     $ ender add scriptjs@0.1.0
+
+<p id="remove"></p>
 
 ### REMOVE
 
@@ -158,10 +184,10 @@ Accepts a list of npm package names and/or paths to local packages.
 
 #### options
 
- * **use** - Specify which file to remove package code from.
- * **help** - gives you more info on the remove method.
+ * »  **use** - Specify which file to remove package code from.
+ * »  **help** - gives you more info on the remove method.
 
-<pre><code>$ ender remove bean --use ./ender/myLib</code></pre>
+<p id="refresh"></p>
 
 ### REFRESH
 
@@ -171,10 +197,10 @@ Rebuilds and reinstalls packages.
 
 #### options
 
- * **use** - Specify which file to refresh.
- * **help** - gives you more info on the refresh method.
+ * »  **use** - Specify which file to refresh.
+ * »  **help** - gives you more info on the refresh method.
 
-<pre><code>$ ender refresh --use ./ender/myLib</code></pre>
+<p id="compile"></p>
 
 ### COMPILE
 
@@ -186,21 +212,19 @@ Accepts file paths.
 
     $ ender compile ./header.js ./footer.js ./my/app.js
 
+<p id="info"></p>
+
 ### INFO
 
-Provides the current status of your built Ender library. This information includes
-
- * the build type
- * gzipped file size
- * a list of all the current packages (with version numbers, descriptions, and dependency tree).
+Provides the current status of your built Ender library. This information includes the build type, a gzipped file size, and a list of all the current packages (with version numbers, descriptions, and dependency tree).
 
 <pre><code>$ ender info</code></pre>
 
 #### options
 
- * **use** - tell ender which file to operate on
+ * » **use** - tell ender which file to operate on
 
-<pre><code>$ ender info --use ../../workspace/fat/fats-library</code></pre>
+<p id="search"></p>
 
 ### SEARCH
 
@@ -208,15 +232,21 @@ Provides the current status of your built Ender library. This information includ
 
     $ ender search underscore
 
+<p id="help"></p>
+
 ### HELP
 
 Gives a simple run through of the available methods and documentation.
 
     $ ender
 
+<p id="publishing"></p>
+
 ## BUILDING AND PUBLISHING YOUR OWN PACKAGES
 
 Because Ender relies on NPM for package management -- extending your ender library is as simple as publishing to NPM.
+
+<p id="packagejson"></p>
 
 ### PACKAGE.JSON
 
@@ -244,17 +274,23 @@ Have a look at the [Qwery package.json file](https://github.com/ded/qwery/blob/m
 
 #### Ender Specific Practices
 
- * Add the `ender` keyword to your package.json to get promoted by ender search as a compatible package.
- * Add a bridge file for integrating with the ender client api by specifying an ender param.
- * you may specify `"noop"` for the ender param to tell ender to not try to integrate it with the ender client api.
+ * »  Add the `ender` keyword to your package.json to get promoted by ender search as a compatible package.
+ * »  Add a bridge file for integrating with the ender client api by specifying an ender param.
+ * »  you may specify `"noop"` for the ender param to tell ender to not try to integrate it with the ender client api.
+
+<p id="bridge"></p>
 
 ### THE BRIDGE
 
 The bridge is an optional javascript integration file used to integrate your code with the ender client api.
 
+<p id="client"></p>
+
 ## THE ENDER CLIENT API
 
 The ender client api offers two powerful ways to interact with your javascript packages, a module API which is based on [CommonJS Modules spec v1.1](http://wiki.commonjs.org/wiki/Modules/1.1) and a heavily augmented $ namespace (like jquery).
+
+<p id="require"></p>
 
 ### REQUIRE
 
@@ -288,6 +324,8 @@ Ender's module support is also great when you run into libs which are competing 
 
     require('bar').baz() //bar's baz is still accessible at any time.
 
+<p id="provide"></p>
+
 ### PROVIDE
 
 Registers a new public package.
@@ -301,6 +339,8 @@ A package name and a value to store as the package.
     provide('underscore', _);
 
 *note: Ender automatically wraps all command line installed packages in a closure and makes them available in this way. Because of this, most modules will not be accessible directly in the global scope -- **this of course is great news!***
+
+<p id="ender"></p>
 
 ### $.ENDER
 
@@ -328,6 +368,7 @@ An optional boolean value -- if true, the object will be added to the Internal c
 
     $('p').rand();
 
+<p id="_select"></p>
 
 ### $._select
 
@@ -351,15 +392,19 @@ If you're building a Mobile Webkit or Android application, you might want to set
       return (root || document).querySelectorAll(selector);
     });
 
+
+<p id="jeesh"></p>
+
 ## THE JEESH
 
 The Jeesh is the official starter pack for ender. At only *7.5k* the Jeesh can help you build anything from small prototypes to providing a solid base for large-scale rich application for desktop and mobile devices. At it's core, it's a collection of packages that we've found particularly useful for major use-case development endeavors -- but we encourage use to <code>add</code> and <code>remove</code> packages to really make it your own. Currently, the Jeesh includes:
 
- * domReady - a cross-browser [domReady](github.com/ded/domready)
- * Qwery - a fast light-weight [selector engine](https://github.com/ded/qwery)
- * Bonzo - a bullet-proof [DOM utility](https://github.com/ded/bonzo)
- * Bean - a multi-platform [Event provider](https://github.com/fat/bean)
+ * »  domReady - a cross-browser [domReady](github.com/ded/domready)
+ * »  Qwery - a fast light-weight [selector engine](https://github.com/ded/qwery)
+ * »  Bonzo - a bullet-proof [DOM utility](https://github.com/ded/bonzo)
+ * »  Bean - a multi-platform [Event provider](https://github.com/fat/bean)
 
+<p id="jeeshoverview"></p>
 
 ### WHAT DOES THIS SETUP LOOK LIKE?
 
@@ -384,7 +429,9 @@ The Jeesh is the official starter pack for ender. At only *7.5k* the Jeesh can h
     $('#content a').emit('customEvent');
     $('#content a').remove('click.myClick');
 
-### TRY IT OUT?
+<p id="tryit"></p>
+
+### TRY IT OUT
 If you're looking to test drive this setup, have a play with [the compiled source](http://ender-js.s3.amazonaws.com/ender.min.js)
 <iframe id="fiddle-example" src="http://jsfiddle.net/yakWA/2/embedded/"></iframe>
 <div class="hr" id="about"></div>
@@ -397,15 +444,5 @@ We would love to hear how you're using ender or why you're not. What you love...
 Ender is licensed under MIT - *copyright 2011 Dustin Diaz & Jacob Thornton*
 
 For the individual modules, see their respective licenses.
-
-## CONTRIBUTORS
-
- * Dustin Diaz
-   [@ded](https://github.com/ender-js/Ender/commits/master?author=ded)
-   ![ded](http://a2.twimg.com/profile_images/1115320538/ded.png)
-   <div class="clear"></div>
- * Jacob Thornton
-   [@fat](https://github.com/ender-js/Ender/commits/master?author=fat)
-   ![fat](http://a1.twimg.com/profile_images/1213187079/eightbit-e3950b2f-24ee-4b03-9e1f-7e13c4cd9a68.png)
 
 <div class="clear"></div>
