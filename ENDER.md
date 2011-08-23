@@ -1,7 +1,7 @@
 
 <div id="intro"></div>
 
-## AN INTRODUCTION
+## INTRODUCTION
 
 *Ender is a full featured package manager for your browser.*<br/>
 It allows you to search, install, manage, and compile front-end javascript packages and their dependencies for the web. We like to think of it as [NPM](https://github.com/isaacs/npm)'s little sister.
@@ -89,7 +89,7 @@ With Ender, if one library goes bad or unmaintained, it can be replaced with ano
 
 When installing, first make sure you have a working copy of the latest stable version of both [Node.js](http://nodejs.org) and [NPM](https://github.com/isaacs/npm). You can then install Ender with the following single line:
 
-    $ npm install ender -g
+    $ [sudo] npm install ender -g
 
 Once installed, you should have access to the `ender` command.
 
@@ -257,7 +257,7 @@ If you haven't already registered your project with NPM, create a file called *p
       "description": "a thing that blams the o's",
       "version": "1.0.0",
       "keywords": ['blamo', 'ender']
-      "homepage": "http://blamo-widgets.com",
+      "homepage": "http://example.com",
       "authors": ["Mr. Blam", "Miss O"],
       "repository": {
         "type": "git",
@@ -265,7 +265,7 @@ If you haven't already registered your project with NPM, create a file called *p
       },
       "dependencies": {
         "klass": "*"
-      }
+      },
       "main": "./src/project/blamo.js",
       "ender": "./src/exports/ender.js"
     }
@@ -296,20 +296,20 @@ The ender client api offers two powerful ways to interact with your javascript p
 
 Returns a raw exported javascript package.
 
-    var myPackage = require('myPackage');
+    var myPackage = require('myPackage')
 
 #### arguments
 
 A package name.
 
-    var _ = require('underscore'); //return the underscore object
+    var _ = require('underscore') //return the underscore object
 
 #### examples
 
 If you were to run the following build command <code>ender build backbone</code>, you could then access both backbone and underscore from your browser like this:
 
     var backbone = require('backbone')
-      , _ = require('underscore');
+      , _ = require('underscore')
 
     backbone.Models(...)
     _.each(...)
@@ -330,13 +330,13 @@ Ender's module support is also great when you run into libs which are competing 
 
 Registers a new public package.
 
-    provide("myPackage", myPackageObj);
+    provide("myPackage", myPackageObj)
 
 #### arguments
 
 A package name and a value to store as the package.
 
-    provide('underscore', _);
+    provide('underscore', _)
 
 *note: Ender automatically wraps all command line installed packages in a closure and makes them available in this way. Because of this, most modules will not be accessible directly in the global scope -- **this of course is great news!***
 
@@ -357,16 +357,15 @@ An optional boolean value -- if true, the object will be added to the Internal c
 
     $.myUtility()
 
-
 *note: Within the scope of your extension methods, the internal prototype will be exposed to the developer using the <code>this</code> context representing the node collection.*
 
     $.ender({
       rand: function () {
-        return this[Math.floor(Math.random() * this.length)];
+        return this[Math.floor(Math.random() * this.length)]
       }
-    }, true);
+    }, true)
 
-    $('p').rand();
+    $('p').rand()
 
 <p id="_select"></p>
 
@@ -378,9 +377,8 @@ Set the selector engine for the $ object.
 
 A method to be used as the selector engine.
 
-    $._select = mySelectorEngine;
-
-    $('#foo .bar');
+    $._select = mySelectorEngine
+    $('#foo .bar')
 
 *note: You can see it in practice in [Qwery](https://github.com/ded/qwery/blob/master/src/ender.js)*
 
@@ -389,9 +387,8 @@ A method to be used as the selector engine.
 If you're building a Mobile Webkit or Android application, you might want to set it simply to <code>querySelectorAll</code>.
 
     $._select = function (selector, root) {
-      return (root || document).querySelectorAll(selector);
-    });
-
+      return (root || document).querySelectorAll(selector)
+    })
 
 <p id="jeesh"></p>
 
@@ -414,7 +411,7 @@ The Jeesh is the official starter pack for ender. At only *7.5k* the Jeesh can h
 
 #### DOM queries
 
-    $('#boosh a[rel~="bookmark"]').each(function (el) { ... });
+    $('#boosh a[rel~="bookmark"]').each(function (el) { ... })
 
 #### Manipulation
 
@@ -425,15 +422,14 @@ The Jeesh is the official starter pack for ender. At only *7.5k* the Jeesh can h
 
 #### Events
 
-    $('#content a').bind('keydown input', handler);
-    $('#content a').emit('customEvent');
-    $('#content a').remove('click.myClick');
+    $('#content a').bind('keydown input', handler)
+    $('#content a').emit('customEvent')
+    $('#content a').remove('click.myClick')
 
 <p id="tryit"></p>
 
 ### TRY IT OUT
-If you're looking to test drive this setup, have a play with [the compiled source](http://ender-js.s3.amazonaws.com/ender.min.js)
-<iframe id="fiddle-example" src="http://jsfiddle.net/yakWA/2/embedded/"></iframe>
+If you're looking to test drive this setup, have a play with [the compiled source](http://ender-js.s3.amazonaws.com/jeesh.min.js)
 
 <div class="hr" id="learn"></div>
 
@@ -456,7 +452,7 @@ Instructional videos and other cool stuff for learning about Ender.
 We would love to hear how you're using ender or why you're not. What you love... what you hate... And we would love all the help we can get! Got a great idea? Open an issue, submit a pull request, follow @ender, or [message us on twitter](http://twitter.com/intent/tweet?text=@fat%20@ded%20-%20I'm%20using%20ender.%20Check%20it%20out%20at%20http://)!
 
 ## LICENSE
-Ender is licensed under MIT - *copyright 2011 Dustin Diaz & Jacob Thornton*
+Ender is licensed under `MIT` - *copyright 2011 Dustin Diaz & Jacob Thornton*
 
 For the individual modules, see their respective licenses.
 
