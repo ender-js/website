@@ -9,20 +9,24 @@
         <pre>$ <span class="yellow">ender</span> build <span class="pomegranate">domready qwery underscore</span></pre>
         <h3>Lightweight, expressive, familiar.</h3>
 <pre>
-<code>$('#content .button')
+<code>$('#content a.button')
   .bind('click.button', function (e) {
-    e.preventDefault();
+    $(this).data('clicked', true).unbind()
+    e.preventDefault()
   })
   .css({
-    width: 10,
-    color: 'red'
-  });<br/>
+      opacity: 1
+    , color: 'red'
+  })
+  .fadeOut(250)
+
 $.map(['a', 'b', 'c'], function (letter) {
-  return letter.toUpperCase();
-}); // => ['A', 'B', 'C']<br/>
-$.ajax('path/to/html', function (resp) {
-  $('#content').html(resp);
-});</code>
+  return letter.toUpperCase()
+})
+
+$.ajax('/data', function (resp) {
+  $('#content').html(resp)
+})</code>
 </pre>
       </section>
     </header>
