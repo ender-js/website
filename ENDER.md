@@ -1,6 +1,10 @@
 
 <div id="intro"></div>
 
+## Learn Ender!
+
+Come learn more about Ender this October at [Frontend Conf 2011](http://www.frontend2011.com/speakers/#DustinDiaz) in Oslo, Norway.
+
 ## INTRODUCTION
 
 *Ender is a full featured package manager for your browser.*<br/>
