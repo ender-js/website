@@ -1,4 +1,3 @@
-
 <div id="intro"></div>
 
 ## INTRODUCTION
@@ -256,7 +255,7 @@ If you haven't already registered your project with NPM, create a file called *p
       "name": "blamo",
       "description": "a thing that blams the o's",
       "version": "1.0.0",
-      "keywords": ['blamo', 'ender']
+      "keywords": ['blamo', 'ender'],
       "homepage": "http://example.com",
       "authors": ["Mr. Blam", "Miss O"],
       "repository": {
