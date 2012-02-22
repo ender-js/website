@@ -393,7 +393,7 @@ If you're building a Mobile Webkit or Android application, you might want to set
 
 ## THE JEESH
 
-The Jeesh is the official starter pack for ender. At only *7.5k* the Jeesh can help you build anything from small prototypes to providing a solid base for large-scale rich application for desktop and mobile devices. At it's core, it's a collection of packages that we've found particularly useful for major use-case development endeavors -- but we encourage use to <code>add</code> and <code>remove</code> packages to really make it your own. Currently, the Jeesh includes:
+The Jeesh is the official starter pack for ender. The Jeesh can help you build anything from small prototypes to providing a solid base for large-scale rich application for desktop and mobile devices. At its core, it's a collection of packages that we've found particularly useful for major use-case development endeavors -- but we encourage developers to <code>add</code> and <code>remove</code> packages to really make it your own. Currently, the Jeesh includes:
 
  * »  domReady - a cross-browser [domReady](https://github.com/ded/domready)
  * »  Qwery - a fast light-weight [selector engine](https://github.com/ded/qwery)
@@ -428,7 +428,7 @@ The Jeesh is the official starter pack for ender. At only *7.5k* the Jeesh can h
 <p id="tryit"></p>
 
 ### TRY IT OUT
-If you're looking to test drive this setup, have a play with [the compiled source](http://ender-js.s3.amazonaws.com/jeesh.min.js)
+If you're looking to test drive this setup, have a play with [the compiled source](http://cdn.enderjs.com/jeesh.min.js)
 
 <div class="hr" id="learn"></div>
 
@@ -451,7 +451,7 @@ Instructional videos and other cool stuff for learning about Ender.
 We would love to hear how you're using ender or why you're not. What you love... what you hate... And we would love all the help we can get! Got a great idea? Open an issue, submit a pull request, follow @ender, or [message us on twitter](http://twitter.com/intent/tweet?text=@fat%20@ded%20-%20I'm%20using%20ender.%20Check%20it%20out%20at%20http://)!
 
 ## LICENSE
-Ender is licensed under `MIT` - *copyright 2011 Dustin Diaz & Jacob Thornton*
+Ender is licensed under `MIT` - *copyright 2012 Dustin Diaz & Jacob Thornton*
 
 For the individual modules, see their respective licenses.
 
