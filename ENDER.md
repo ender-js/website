@@ -428,7 +428,7 @@ The Jeesh is the official starter pack for ender. The Jeesh can help you build a
 <p id="tryit"></p>
 
 ### TRY IT OUT
-If you're looking to test drive this setup, have a play with [the compiled source](http://cdn.enderjs.com/jeesh.min.js)
+If you're looking to test drive this setup, have a play with [the compiled source](http://cdn.enderjs.com/jeesh.js) ([minified](http://cdn.enderjs.com/jeesh.min.js)).
 
 <div class="hr" id="learn"></div>
 
