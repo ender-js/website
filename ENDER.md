@@ -227,7 +227,7 @@ Provides the current status of your built Ender library. This information includ
 
 ### SEARCH
 
-Looks up keywords against NPM's registry and surfaces the most relevant packages. It promotes results for known ender compatible packages and also generic npm matches).
+Looks up keywords against NPM's registry and surfaces the most relevant packages. It promotes results for known ender compatible packages (and lists generic npm matches below).
 
     $ ender search underscore
 
