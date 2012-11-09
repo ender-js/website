@@ -437,6 +437,7 @@ If you're looking to test drive this setup, have a play with [the compiled sourc
 Ender is also a thriving ecosystem of packages, some specifically designed for Ender and others that are simply Ender compatible. To get an idea of what's available, why not have a look at these additional packages:
 
  * »  Traversty - a full-featured [DOM traversal and collection management utility](https://github.com/rvagg/traversty)
+ * »  Reqwest - easy [AJAX & form serialization](https://github.com/ded/reqwest)
  * »  Valentine - type checking, functional iterators and async helpers, [JavaScript's Functional Sister](https://github.com/ded/valentine)
  * »  Bowser - [browser detection](https://github.com/ded/bowser)
  * »  Wings - [simple templating](https://github.com/amccollum/wings)
