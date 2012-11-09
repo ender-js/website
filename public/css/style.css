@@ -215,12 +215,22 @@ nav a:first-child {
 margin-left: -5px;
 }
 
-#courtesy {
+#courtesy, #hostedby {
 text-align: center;
 font-size:12px;
 background:#fff;
 float:right;
 margin: 0 auto;
+}
+
+#hostedby {
+float:left;
+}
+
+#hostedby img {
+float:left;
+margin-top:-10px;
+margin-right:5px;
 }
 
 /* FIDDLE
