@@ -46,6 +46,8 @@ With Ender, if one library goes bad or unmaintained, it can be replaced with ano
  * » [the jeesh](#jeesh)
   - ├ [what does this setup look like?](#jeeshoverview)
   - └ [try it out](#tryit)
+ * » [beyond the jeesh&mdash;additional packages](#additionalpackages)
+  - └ [selector engines](#selectorengines)
 
 <div class="hr" id="overview"></div>
 
@@ -428,7 +430,7 @@ The Jeesh is the official starter pack for Ender. The Jeesh can help you build a
 ### TRY IT OUT
 If you're looking to test drive this setup, have a play with [the compiled source](http://cdn.enderjs.com/jeesh.min.js)
 
-<div class="hr" id="modules"></div>
+<div class="hr" id="additionalpackages"></div>
 
 ## BEYOND THE JEESH&mdash;ADDITIONAL PACKAGES
 
@@ -446,6 +448,7 @@ Or how about something more substantial? **[Ender Bootstrap](https://github.com/
 
 You can find additional modules, or add your own, on the [Ender Wiki](https://github.com/ender-js/Ender/wiki/Ender-package-list).
 
+<p id="selectorengines"></p>
 ### SELECTOR ENGINES
 
 Ender doesn't limit you to using Qwery as your selector engine. You can also choose from:
