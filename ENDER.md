@@ -8,8 +8,6 @@ It allows you to search, install, manage, and compile front-end JavaScript packa
 *Ender is not a JavaScript library*.<br/>
 It's not a jQuery replacement. It's not even a static asset. It's a tool for making the consumption of front-end JavaScript packages dead simple and incredibly powerful.
 
-### WINNING!
-
 ### WHY?
 
 In the browser - **small, loosely coupled modules are the future and large, tightly-bound monolithic libraries are the past!**
