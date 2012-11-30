@@ -6,17 +6,17 @@ var path        = require('path')
 require('swig').init({ root: path.join(__dirname, 'views') })
 
 splinksmvc({
-    port: process.env.PORT || 3000
-  , scan: [
+    port     : process.env.PORT || 3000
+  , scan     : [
         path.join(__dirname, './lib')
     ]
-  , 'static': {
-        path: path.join(__dirname, './public')
-      , url: '/'
+  , 'static' : {
+        path       : path.join(__dirname, './public')
+      , url        : '/'
     }
-  , 'views': {
-        path: path.join(__dirname, './views')
-      , suffix: 'html'
-      , processor: 'swig'
+  , 'views'  : {
+        path       : path.join(__dirname, './views')
+      , suffix     : 'html'
+      , processor  : 'swig'
     }
 }).start()
