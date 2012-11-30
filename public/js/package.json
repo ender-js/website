@@ -1,0 +1,7 @@
+{
+  "author": "",
+  "name": "ender-website-frontend",
+  "version": "0.0.0",
+  "dependencies": { "jeesh": "*" },
+  "main": "app.js"
+}
