@@ -7,7 +7,7 @@
         "start": "index.js"
     }
   , "dependencies": {
-        "splink-smvc": "~0.0.0-a4"
+        "splink-smvc": "~0.0.0-a5"
       , "swig": "~0.13.2"
       , "brucedown": "~0.0.1"
     }
