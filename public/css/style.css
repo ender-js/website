@@ -254,18 +254,27 @@ background: url('/img/background.jpg');
 
 /* COLORS
 ============*/
-.yellow, .number {
+
+/*
+nx
+p = paren
+s1 = string
+kd = keyword
+kc = ?? bool?
+mi = number?
+*/
+.yellow, .mi {
 color:#ffff44;
 }
 
-ul strong, em, .teal, .keyword {
+ul strong, em, .kd, .k, .kc {
 color: #219195;
 }
 
-a, .pomegranate, .string {
+a, .s1, .s2, .nv {
 color: #fa524f;
 }
 
-.grey, .comment {
+.c, .c1 {
 color: #aaaaaa;
 }

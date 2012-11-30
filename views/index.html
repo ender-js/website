@@ -1,7 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+  {% autoescape false %}
+    {{ head }}
+  {% endautoescape %}
+{% endblock %}
+
+{% block content %}
 <section id="content">
   <div class="wrap">
     <div class="page">
-      {{{content}}}
+      {% autoescape false %}
+        {{ content }}
+      {% endautoescape %}
     </div>
     <div id="courtesy">
       <p>illustration courtesy <a href="http://raphaelurwiller.com/">raphaelurwiller</a></p>
@@ -11,3 +22,4 @@
     </div>
   </div>
 </section>
+{% endblock %}

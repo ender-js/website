@@ -1,17 +1,14 @@
 {
-  "name": "ender-website",
-  "version": "0.0.2-4",
-  "main": "server.js",
-  "subdomain": "ender",
-  "scripts": {
-    "start": "server.js"
-  },
-  "dependencies": {
-    "express": "~2.3.9",
-    "markdown-js": "~0.0.3",
-    "stache": "~0.0.3"
-  },
-  "engines": {
-    "node": "*"
+    "name": "ender-website"
+  , "version": "0.1.0"
+  , "main": "index.js"
+  , "subdomain": "ender"
+  , "scripts": {
+        "start": "server.js"
+    }
+  , "dependencies": {
+        "splink-smvc": "~0.0.0-a3"
+      , "swig": "~0.13.2"
+      , "brucedown": "~0.0.1"
   }
 }

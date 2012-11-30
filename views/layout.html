@@ -6,17 +6,34 @@
     <link rel="stylesheet" href="/css/style.css" type="text/css">
   </head>
   <body>
-    {{>nav}}
-    {{>header}}
-    {{{yield}}}
+    {% include "nav.html" %}
+
+    <section class="wrap">
+      <section id="intro">
+        <header>
+          <section class="left">
+            <img src="/img/ender-logo.png" id="title" />
+          </section>
+          <section class="right">
+
+            {% block head %}{% endblock %}
+
+          </section>
+        </header>
+      </section>
+    </section>
+
+    {% block content %}{% endblock %}
+
     <script src="/js/ender.min.js"></script>
+    <script src="/js/app.js"></script>
     <script src="//platform.twitter.com/anywhere.js?id=frmB6pZo25QLmwMoV4z5Cw&v=1"></script>
     <script type="text/javascript">
       var _gaq = _gaq || []
       _gaq.push(['_setAccount', 'UA-22894426-1'])
       _gaq.push(['_trackPageview'])
 
-      $.script(['/js/hijs.js', '/js/app.js'])
+      //$.script(['/js/hijs.js', '/js/app.js'])
       twttr.anywhere(function (T) {
         T.hovercards();
       });
