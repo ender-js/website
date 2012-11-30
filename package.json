@@ -1,13 +1,13 @@
 {
     "name": "ender-website"
-  , "version": "0.1.1"
+  , "version": "0.1.1-1"
   , "main": "index.js"
   , "subdomain": "ender"
   , "scripts": {
-        "start": "server.js"
+        "start": "index.js"
     }
   , "dependencies": {
-        "splink-smvc": "~0.0.0-a3"
+        "splink-smvc": "~0.0.0-a4"
       , "swig": "~0.13.2"
       , "brucedown": "~0.0.1"
     }
