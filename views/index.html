@@ -1,18 +1,14 @@
 {% extends 'layout.html' %}
 
 {% block head %}
-  {% autoescape false %}
-    {{ head }}
-  {% endautoescape %}
+  {{ head|raw }}
 {% endblock %}
 
 {% block content %}
 <section id="content">
   <div class="wrap">
     <div class="page">
-      {% autoescape false %}
-        {{ content }}
-      {% endautoescape %}
+      {{ content|raw }}
     </div>
     <div id="courtesy">
       <p>illustration courtesy <a href="http://raphaelurwiller.com/">raphaelurwiller</a></p>
