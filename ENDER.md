@@ -76,7 +76,7 @@ $ ender remove qwery
 ```js
 // Require packages to access them as raw packages
 var _ = require('underscore')
-  , _.each([1, 2, 3], alert)
+_.each([1, 2, 3], alert)
 
 // Access methods augmented directly to the $
 $.ready(function () {
@@ -111,7 +111,7 @@ The `ender` command provides the following actions:
 Installs and assembles JavaScript packages and their dependencies.
 
 ```sh
-ender build [foo, bar, ...]
+$ ender build [foo, bar, ...]
 ```
 
 #### arguments
@@ -243,7 +243,9 @@ $ ender compile ./header.js ./footer.js ./my/app.js
 
 Provides the current status of your built Ender library. This information includes the build type, a gzipped file size, and a list of all the current packages (with version numbers, descriptions, and dependency tree).
 
-<pre><code>$ ender info</code></pre>
+```sh
+$ ender info
+```
 
 #### options
 
