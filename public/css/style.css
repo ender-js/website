@@ -1,255 +1,271 @@
 body {
-font-family: arial;
-margin:0;
-padding:0;
+  font-family: 'Lusitana', serif;
+  font-size: 18px;
+  margin: 0;
+  padding: 0;
 }
 
 a {
-text-decoration: none;
+  text-decoration: none;
 }
 
-a:hover {
-text-decoration: underline;
+a: hover {
+  text-decoration: underline;
 }
 
 pre {
-padding: 10px 10px 10px 20px;
-background-color:#222;
-font-size:12px;
-color:#fff;
-font-family: "monaco", monospace;
-border-bottom: 4px solid #888;
+  padding: 10px 10px 10px 20px;
+  background-color: #222;
+  font-size: 15px;
+  color: #fff;
+  font-family: 'Ubuntu Mono', monospace;
+  border-bottom: 4px solid #888;
 }
 
 .hr {
-background: url('/img/hr.jpg');
-height: 15px;
-margin:20px 20px 10px 20px;
+  background: url('/img/hr.jpg');
+  height: 15px;
+  margin: 20px 20px 10px 20px;
 }
 
 .page iframe {
-display:block;
-margin: 0 auto;
-border:10px solid #eee;
+  display: block;
+  margin: 0 auto;
+  border: 10px solid #eee;
 }
 
 /* HEADINGS
 ===========*/
 
+h1 {
+  font-family: helvetica, arial;
+  font-size: 43px;
+  font-weight: normal;
+  margin-top: 22px;
+}
+
+h1 span {
+  font-size: 17px;
+  display: block;
+  padding-left: 2px;
+}
+
 h2 {
-font-family: "futura-CondensedMedium", futura, helvetica;
-padding: 20px 0 0 0;
-font-weight: 100;
-font-size: 36px;
-margin: 20px 20px 5px;
-text-transform: lowercase;
-border-top: 6px solid #ddd;
-letter-spacing: -1px;
+  padding: 20px 0 0 0;
+  font-weight: 100;
+  font-size: 36px;
+  margin: 20px 20px 5px;
+  text-transform: lowercase;
+  border-top: 6px solid #ddd;
+  letter-spacing: -1px;
 }
 
 div + h2 {
-border-top: none;
-margin-top:0;
+  border-top: none;
+  margin-top: 0;
 }
 
 h3 {
-font-size: 18px;
-font-family: helvetica;
-margin-bottom:5px;
-margin-left: 20px;
+  font-size: 23px;
+  margin-bottom: 5px;
+  margin-left: 20px;
 }
 
 h3 a {
-font-weight:normal;
+  font-weight: normal;
 }
 
 .page h3 {
-margin-right: 20px;
-padding-top: 20px;
-color: #FA524F;
-border-top: 1px solid #EEE;
-margin-top:0;
+  margin-right: 20px;
+  padding-top: 20px;
+  color: #FA524F;
+  border-top: 1px solid #EEE;
+  margin-top: 0;
 }
 
 h4 {
-margin-left: 20px;
+  margin-left: 20px;
 }
 
 /* LISTS
 ========*/
 
 ul {
-margin: 0;
-padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .doc-contents + ul {
-margin-left:15px;
+  margin-left: 15px;
 }
 
-.doc-contents +ul li, .doc-contents + ul li:nth-child(odd) {
-background: #fff;
-padding: 0;
-margin: 5px 10px;
-color:#888;
+.doc-contents +ul li, .doc-contents + ul li: nth-child(odd) {
+  background: #fff;
+  padding: 0;
+  margin: 5px 10px;
+  color: #888;
 }
 
-.doc-contents + ul ul li, .doc-contents + ul ul li:nth-child(odd) {
-color:#ccc;
+.doc-contents + ul ul li, .doc-contents + ul ul li: nth-child(odd) {
+  color: #ccc;
 }
 
 .doc-contents + ul li a {
-color:#fa524f;
+  color: #fa524f;
 }
 
 ul li {
-list-style:none;
-padding:10px 20px;
-font-size:14px;
-background:#eee;
+  list-style: none;
+  padding: 6px 20px;
+  background: #eee;
+}
+
+ul li li {
+  padding: 4px 20px;
 }
 
 ul li img {
-width: 50px;
-height: 50px;
-float:left;
-margin-right: 10px;
+  width: 50px;
+  height: 50px;
+  float: left;
+  margin-right: 10px;
 }
 
-ul li:nth-child(odd) {
-background: #ddd;
+ul li: nth-child(odd) {
+  background: #ddd;
 }
 
 /* PAGE WRAP
 =============*/
 
 .wrap {
-display:block;
-position:relative;
-width:960px;
-margin: 0 auto;
-padding: 20px 20px 80px;
+  display: block;
+  position: relative;
+  width: 960px;
+  margin: 0 auto;
+  padding: 20px 20px 80px;
 }
 
 .page {
-background:#fff;
-border-bottom: 4px solid #888;
-margin-bottom:20px;
+  background: #fff;
+  border-bottom: 4px solid #888;
+  margin-bottom: 20px;
 }
 
 .page .title {
-padding: 20px 0 0 20px;
+  padding: 20px 0 0 20px;
 }
 
 .page p {
-padding: 0 20px 5px;
-line-height:30px;
+  padding: 0 20px 5px;
+  line-height: 30px;
 }
 
 .clear {
-clear: both;
+  clear: both;
 }
 
 #title {
-width: 155px;
-top: 15px;
-position: relative;
+  width: 155px;
+  top: 15px;
+  position: relative;
 }
 
 /* HEADER
 =============*/
 
 header .left {
-background: url('/img/battle.jpg') no-repeat 30px 38px;
-height:470px;
-width:470px;
-float: left;
+  background: url('/img/battle.jpg') no-repeat 30px 90px;
+  height: 470px;
+  width: 470px;
+  float: left;
 }
 
 header .right {
-width:470px;
-float:left;
-margin-left:20px;
+  width: 470px;
+  float: left;
+  margin-left: 20px;
 }
 
 header .right h3 {
-margin-left: 0;
+  margin-left: 0;
 }
 
 /* NAV
 =============*/
 
 #nav {
-display:block;
-position:absolute;
-top:50px;
-top: 485px;
-left: 0;
-right: 0;
-background:#000;
-border-bottom:4px solid #888;
-z-index:2;
+  display: block;
+  position: absolute;
+  top: 50px;
+  top: 580px;
+  left: 0;
+  right: 0;
+  background: #000;
+  border-bottom: 4px solid #888;
+  z-index: 2;
 }
 
 nav {
-display:block;
-position:relative;
-width:960px;
-margin: 0 auto;
+  display: block;
+  position: relative;
+  width: 960px;
+  margin: 0 auto;
 }
 
 nav a {
-padding: 10px 25px;
-color: white;
-text-decoration: none;
-font-size: 14px;
-display: inline-block;
-font-weight: bold;
+  padding: 7px 60px 7px 4px;
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  display: inline-block;
+  font-weight: bold;
 }
 
-nav a:hover {
-background:#333;
+nav a: hover {
+  background: #333;
 }
 
-nav a:first-child {
-margin-left: -5px;
+nav a: first-child {
+  margin-left: -5px;
 }
 
 #courtesy, #hostedby {
-text-align: center;
-font-size:12px;
-background:#fff;
-float:right;
-margin: 0 auto;
+  text-align: center;
+  font-size: 15px;
+  background: #fff;
+  float: right;
+  margin: 0 auto;
 }
 
 #hostedby {
-float:left;
+  float: left;
 }
 
 #hostedby img {
-float:left;
-margin-top:-10px;
-margin-right:5px;
+  float: left;
+  margin-top: -10px;
+  margin-right: 5px;
 }
 
 /* FIDDLE
 ===========*/
 
 #fiddle-example {
-width: 900px;
-height: 300px;
-margin: 0 20px;
+  width: 900px;
+  height: 300px;
+  margin: 0 20px;
 }
 
 /* CONTENT
 ===========*/
 
 #content {
-display:block;
-clear:both;
-padding-top:40px;
-background: url('/img/background.jpg');
+  display: block;
+  clear: both;
+  padding-top: 56px;
+  background: url('/img/background.jpg');
+  margin-top: 500px;
 }
 
 /* COLORS
@@ -264,17 +280,17 @@ kc = ?? bool?
 mi = number?
 */
 .yellow, .mi {
-color:#ffff44;
+  color: #ffff44;
 }
 
 ul strong, em, .kd, .k, .kc {
-color: #219195;
+  color: #219195;
 }
 
 a, .s1, .s2, .nv {
-color: #fa524f;
+  color: #fa524f;
 }
 
 .c, .c1 {
-color: #aaaaaa;
+  color: #aaaaaa;
 }

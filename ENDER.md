@@ -540,7 +540,7 @@ We would love to hear how you're using Ender or why you're not. What you love...
 
 ### LICENSE
 
-Ender is licensed under `MIT` - *copyright 2012 Dustin Diaz & Jacob Thornton*
+Ender is licensed under *MIT* - *copyright 2012-2013 Dustin Diaz & Jacob Thornton*
 
 For the individual modules, see their respective licenses.
 
