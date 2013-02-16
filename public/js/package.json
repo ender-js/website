@@ -2,6 +2,10 @@
   "author": "",
   "name": "ender-website-frontend",
   "version": "0.0.0",
-  "dependencies": { "jeesh": "*" },
-  "main": "app.js"
+  "dependencies": {
+    "jeesh": "*",
+    "morpheus": "~0.6.6"
+  },
+  "main": "app.js",
+  "private": true
 }

@@ -1,8 +1,8 @@
 /*!
   * =============================================================
   * Ender: open module JavaScript framework (https://ender.no.de)
-  * Build: ender build ./
-  * Packages: ender-js@0.4.4-1 domready@0.2.11 qwery@3.4.0 bonzo@1.3.0 bean@1.0.1 jeesh@0.0.6 ender-website-frontend@0.0.0
+  * Build: ender build
+  * Packages: ender-js@0.4.4-1 domready@0.2.11 qwery@3.4.1 bonzo@1.3.4 bean@1.0.3 jeesh@0.0.6 morpheus@0.6.6 ender-website-frontend@0.0.0
   * =============================================================
   */
 
@@ -184,7 +184,7 @@
         loaded ? fn() : fns.push(fn)
       })
   })
-  provide("domready", module.exports);
+  if (typeof provide == 'function') provide("domready", module.exports);
 
   !function ($) {
     var ready = require('domready')
@@ -211,7 +211,7 @@
 
   (function (name, context, definition) {
     if (typeof module != 'undefined' && module.exports) module.exports = definition()
-    else if (typeof context['define'] == 'function' && context['define']['amd']) define(definition)
+    else if (typeof define == 'function' && define.amd) define(definition)
     else context[name] = definition()
   })('qwery', this, function () {
     var doc = document
@@ -572,7 +572,7 @@
     return qwery
   });
 
-  provide("qwery", module.exports);
+  if (typeof provide == 'function') provide("qwery", module.exports);
 
   (function ($) {
     var q = function () {
@@ -650,16 +650,17 @@
     */
   (function (name, context, definition) {
     if (typeof module != 'undefined' && module.exports) module.exports = definition()
-    else if (typeof context['define'] == 'function' && context['define']['amd']) define(definition)
+    else if (typeof define == 'function' && define.amd) define(definition)
     else context[name] = definition()
   })('bonzo', this, function() {
     var win = window
       , doc = win.document
       , html = doc.documentElement
       , parentNode = 'parentNode'
-      , query = null // used for setting a selector engine host
       , specialAttributes = /^(checked|value|selected|disabled)$/i
-      , specialTags = /^(select|fieldset|table|tbody|tfoot|td|tr|colgroup)$/i // tags that we have trouble inserting *into*
+        // tags that we have trouble inserting *into*
+      , specialTags = /^(select|fieldset|table|tbody|tfoot|td|tr|colgroup)$/i
+      , simpleScriptTagRe = /\s*<script +src=['"]([^'"]+)['"]>/
       , table = ['<table>', '</table>', 1]
       , td = ['<table><tbody><tr>', '</tr></tbody></table>', 3]
       , option = ['<select>', '</select>', 1]
@@ -709,6 +710,7 @@
       , whitespaceRegex = /\s+/
       , toString = String.prototype.toString
       , unitless = { lineHeight: 1, zoom: 1, zIndex: 1, opacity: 1, boxFlex: 1, WebkitBoxFlex: 1, MozBoxFlex: 1 }
+      , query = doc.querySelectorAll && function (selector) { return doc.querySelectorAll(selector) }
       , trim = String.prototype.trim ?
           function (s) {
             return s.trim()
@@ -717,6 +719,39 @@
             return s.replace(trimReplace, '')
           }
 
+      , getStyle = features.computedStyle
+          ? function (el, property) {
+              var value = null
+                , computed = doc.defaultView.getComputedStyle(el, '')
+              computed && (value = computed[property])
+              return el.style[property] || value
+            }
+          : !(ie && html.currentStyle)
+            ? function (el, property) {
+                return el.style[property]
+              }
+            :
+            /**
+             * @param {Element} el
+             * @param {string} property
+             * @return {string|number}
+             */
+            function (el, property) {
+              var val, value
+              if (property == 'opacity' && !features.opasity) {
+                val = 100
+                try {
+                  val = el['filters']['DXImageTransform.Microsoft.Alpha'].opacity
+                } catch (e1) {
+                  try {
+                    val = el['filters']('alpha').opacity
+                  } catch (e2) {}
+                }
+                return val / 100
+              }
+              value = el.currentStyle ? el.currentStyle[property] : null
+              return el.style[property] || value
+            }
 
     function isNode(node) {
       return node && node.nodeName && (node.nodeType == 1 || node.nodeType == 11)
@@ -735,13 +770,12 @@
       return node
     }
 
-
     /**
      * @param {string} c a class name to test
      * @return {boolean}
      */
     function classReg(c) {
-      return new RegExp("(^|\\s+)" + c + "(\\s+|$)")
+      return new RegExp('(^|\\s+)' + c + '(\\s+|$)')
     }
 
 
@@ -860,41 +894,6 @@
         return p ? camelize(p) : null
     }
 
-    var getStyle = features.computedStyle ?
-      function (el, property) {
-        var value = null
-          , computed = doc.defaultView.getComputedStyle(el, '')
-        computed && (value = computed[property])
-        return el.style[property] || value
-      } :
-
-      (ie && html.currentStyle) ?
-
-      /**
-       * @param {Element} el
-       * @param {string} property
-       * @return {string|number}
-       */
-      function (el, property) {
-        if (property == 'opacity' && !features.opasity) {
-          var val = 100
-          try {
-            val = el['filters']['DXImageTransform.Microsoft.Alpha'].opacity
-          } catch (e1) {
-            try {
-              val = el['filters']('alpha').opacity
-            } catch (e2) {}
-          }
-          return val / 100
-        }
-        var value = el.currentStyle ? el.currentStyle[property] : null
-        return el.style[property] || value
-      } :
-
-      function (el, property) {
-        return el.style[property]
-      }
-
     // this insert method is intense
     function insert(target, host, fn, rev) {
       var i = 0, self = host || this, r = []
@@ -982,6 +981,21 @@
      */
     function setter(el, v) {
       return typeof v == 'function' ? v(el) : v
+    }
+
+    function scroll(x, y, type) {
+      var el = this[0]
+      if (!el) return this
+      if (x == null && y == null) {
+        return (isBody(el) ? getWindowScroll() : { x: el.scrollLeft, y: el.scrollTop })[type]
+      }
+      if (isBody(el)) {
+        win.scrollTo(x, y)
+      } else {
+        x != null && (el.scrollLeft = x)
+        y != null && (el.scrollTop = y)
+      }
+      return this
     }
 
     /**
@@ -1202,6 +1216,17 @@
           return this.remove()
         }
 
+        /**
+         * @param {Object=} opt_host an optional host scope (primarily used when integrated with Ender)
+         * @return {Bonzo}
+         */
+      , clone: function (opt_host) {
+          var ret = [] // don't change original array
+            , l, i
+          for (i = 0, l = this.length; i < l; i++) ret[i] = cloneNode(opt_host || this, this[i])
+          return bonzo(ret)
+        }
+
         // class management
 
         /**
@@ -1260,7 +1285,7 @@
             each(c, function (c) {
               if (c) {
                 typeof opt_condition !== 'undefined' ?
-                  opt_condition ? addClass(el, c) : removeClass(el, c) :
+                  opt_condition ? !hasClass(el, c) && addClass(el, c) : removeClass(el, c) :
                   hasClass(el, c) ? removeClass(el, c) : addClass(el, c)
               }
             })
@@ -1354,7 +1379,7 @@
          * @return {Element|Node}
          */
       , related: function (method) {
-          return this.map(
+          return bonzo(this.map(
             function (el) {
               el = el[method]
               while (el && el.nodeType !== 1) {
@@ -1365,7 +1390,7 @@
             function (el) {
               return el
             }
-          )
+          ))
         }
 
 
@@ -1499,7 +1524,7 @@
                 ? Math.max(el.body.scrollWidth, el.body.offsetWidth, de.scrollWidth, de.offsetWidth, de.clientWidth)
                 : el.offsetWidth
             , height = de
-                ? Math.max(el.body.scrollHeight, el.body.offsetHeight, de.scrollWidth, de.offsetWidth, de.clientHeight)
+                ? Math.max(el.body.scrollHeight, el.body.offsetHeight, de.scrollHeight, de.offsetHeight, de.clientHeight)
                 : el.offsetHeight
 
           orig && this.first().css(orig)
@@ -1518,12 +1543,15 @@
          */
       , attr: function (k, opt_v) {
           var el = this[0]
+            , n
+
           if (typeof k != 'string' && !(k instanceof String)) {
-            for (var n in k) {
+            for (n in k) {
               k.hasOwnProperty(n) && this.attr(n, k[n])
             }
             return this
           }
+
           return typeof opt_v == 'undefined' ?
             !el ? null : specialAttributes.test(k) ?
               stateAttributes.test(k) && typeof el[k] == 'string' ?
@@ -1641,6 +1669,7 @@
       var c = el.cloneNode(true)
         , cloneElems
         , elElems
+        , i
 
       // check for existence of an event cloner
       // preferably https://github.com/fat/bean
@@ -1652,25 +1681,10 @@
         cloneElems = host.$(c).find('*')
         elElems = host.$(el).find('*')
 
-        for (var i = 0; i < elElems.length; i++)
+        for (i = 0; i < elElems.length; i++)
           host.$(cloneElems[i]).cloneEvents(elElems[i])
       }
       return c
-    }
-
-    function scroll(x, y, type) {
-      var el = this[0]
-      if (!el) return this
-      if (x == null && y == null) {
-        return (isBody(el) ? getWindowScroll() : { x: el.scrollLeft, y: el.scrollTop })[type]
-      }
-      if (isBody(el)) {
-        win.scrollTo(x, y)
-      } else {
-        x != null && (el.scrollLeft = x)
-        y != null && (el.scrollTop = y)
-      }
-      return this
     }
 
     function isBody(element) {
@@ -1679,6 +1693,13 @@
 
     function getWindowScroll() {
       return { x: win.pageXOffset || html.scrollLeft, y: win.pageYOffset || html.scrollTop }
+    }
+
+    function createScriptFromHtml(html) {
+      var scriptEl = document.createElement('script')
+        , matches = html.match(simpleScriptTagRe)
+      scriptEl.src = matches[1]
+      return scriptEl
     }
 
     /**
@@ -1705,7 +1726,8 @@
       // hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
       return typeof node == 'string' && node !== '' ?
         function () {
-          var tag = /^\s*<([^\s>]+)/.exec(node)
+          if (simpleScriptTagRe.test(node)) return [createScriptFromHtml(node)]
+          var tag = node.match(/^\s*<([^\s>]+)/)
             , el = doc.createElement('div')
             , els = []
             , p = tag ? tagMap[tag[1].toLowerCase()] : null
@@ -1721,7 +1743,7 @@
           do {
             // tbody special case for IE<8, creates tbody on any empty table
             // we don't want it if we're just after a <thead>, <caption>, etc.
-            if ((!tag || el.nodeType == 1) && (!tb || el.tagName.toLowerCase() != 'tbody')) {
+            if ((!tag || el.nodeType == 1) && (!tb || (el.tagName && el.tagName != 'TBODY'))) {
               els.push(el)
             }
           } while (el = el.nextSibling)
@@ -1773,7 +1795,7 @@
     return bonzo
   }); // the only line we care about using a semi-colon. placed here for concatenation tools
 
-  provide("bonzo", module.exports);
+  if (typeof provide == 'function') provide("bonzo", module.exports);
 
   (function ($) {
 
@@ -1851,6 +1873,10 @@
         return $(b(this).previous())
       }
 
+    , related: function (t) {
+        return $(b(this).related(t))
+      }
+
     , appendTo: function (t) {
         return b(this.selector).appendTo(t, this)
       }
@@ -1865,6 +1891,10 @@
 
     , insertBefore: function (t) {
         return b(this.selector).insertBefore(t, this)
+      }
+
+    , clone: function () {
+        return $(b(this).clone(this))
       }
 
     , siblings: function () {
@@ -1919,11 +1949,14 @@
     * https://github.com/fat/bean
     * MIT license
     */
-  !(function (name, context, definition) {
-    if (typeof module != 'undefined' && module.exports) module.exports = definition(name, context);
-    else if (typeof define == 'function' && typeof define.amd  == 'object') define(definition);
-    else context[name] = definition(name, context);
-  }('bean', this, function (name, context) {
+  (function (name, context, definition) {
+    if (typeof module != 'undefined' && module.exports) module.exports = definition()
+    else if (typeof define == 'function' && define.amd) define(definition)
+    else context[name] = definition()
+  })('bean', this, function (name, context) {
+    name    = name    || 'bean'
+    context = context || this
+
     var win            = window
       , old            = context[name]
       , namespaceRegex = /[^\.]*(?=\..*)\.|.*/
@@ -2472,7 +2505,7 @@
           }
 
           type = isTypeStr && typeSpec.replace(nameRegex, '')
-          if (type && customEvents[type]) type = customEvents[type].type
+          if (type && customEvents[type]) type = customEvents[type].base
 
           if (!typeSpec || isTypeStr) {
             // off(el) or off(el, t1.ns) or off(el, .ns) or off(el, .ns1.ns2.ns3)
@@ -2650,9 +2683,8 @@
     setSelectorEngine()
 
     return bean
-  }));
-
-  provide("bean", module.exports);
+  });
+  if (typeof provide == 'function') provide("bean", module.exports);
 
   !function ($) {
     var b = require('bean')
@@ -2725,13 +2757,451 @@
 
   var module = { exports: {} }, exports = module.exports;
 
-  provide("jeesh", module.exports);
+  if (typeof provide == 'function') provide("jeesh", module.exports);
   $.ender(module.exports);
 }());
 
 (function () {
 
   var module = { exports: {} }, exports = module.exports;
+
+  /*!
+    * Morpheus - A Brilliant Animator
+    * https://github.com/ded/morpheus - (c) Dustin Diaz 2011
+    * License MIT
+    */
+  !function (name, definition) {
+    if (typeof define == 'function') define(definition)
+    else if (typeof module != 'undefined') module.exports = definition()
+    else this[name] = definition()
+  }('morpheus', function () {
+
+    var doc = document
+      , win = window
+      , perf = win.performance
+      , perfNow = perf && (perf.now || perf.webkitNow || perf.msNow || perf.mozNow)
+      , now = perfNow ? function () { return perfNow.call(perf) } : function () { return +new Date() }
+      , html = doc.documentElement
+      , thousand = 1000
+      , rgbOhex = /^rgb\(|#/
+      , relVal = /^([+\-])=([\d\.]+)/
+      , numUnit = /^(?:[\+\-]=)?\d+(?:\.\d+)?(%|in|cm|mm|em|ex|pt|pc|px)$/
+      , rotate = /rotate\(((?:[+\-]=)?([\-\d\.]+))deg\)/
+      , scale = /scale\(((?:[+\-]=)?([\d\.]+))\)/
+      , skew = /skew\(((?:[+\-]=)?([\-\d\.]+))deg, ?((?:[+\-]=)?([\-\d\.]+))deg\)/
+      , translate = /translate\(((?:[+\-]=)?([\-\d\.]+))px, ?((?:[+\-]=)?([\-\d\.]+))px\)/
+        // these elements do not require 'px'
+      , unitless = { lineHeight: 1, zoom: 1, zIndex: 1, opacity: 1, transform: 1}
+
+    // which property name does this browser use for transform
+    var transform = function () {
+      var styles = doc.createElement('a').style
+        , props = ['webkitTransform', 'MozTransform', 'OTransform', 'msTransform', 'Transform']
+        , i
+      for (i = 0; i < props.length; i++) {
+        if (props[i] in styles) return props[i]
+      }
+    }()
+
+    // does this browser support the opacity property?
+    var opasity = function () {
+      return typeof doc.createElement('a').style.opacity !== 'undefined'
+    }()
+
+    // initial style is determined by the elements themselves
+    var getStyle = doc.defaultView && doc.defaultView.getComputedStyle ?
+      function (el, property) {
+        property = property == 'transform' ? transform : property
+        var value = null
+          , computed = doc.defaultView.getComputedStyle(el, '')
+        computed && (value = computed[camelize(property)])
+        return el.style[property] || value
+      } : html.currentStyle ?
+
+      function (el, property) {
+        property = camelize(property)
+
+        if (property == 'opacity') {
+          var val = 100
+          try {
+            val = el.filters['DXImageTransform.Microsoft.Alpha'].opacity
+          } catch (e1) {
+            try {
+              val = el.filters('alpha').opacity
+            } catch (e2) {}
+          }
+          return val / 100
+        }
+        var value = el.currentStyle ? el.currentStyle[property] : null
+        return el.style[property] || value
+      } :
+      function (el, property) {
+        return el.style[camelize(property)]
+      }
+
+    var frame = function () {
+      // native animation frames
+      // http://webstuff.nfshost.com/anim-timing/Overview.html
+      // http://dev.chromium.org/developers/design-documents/requestanimationframe-implementation
+      return win.requestAnimationFrame  ||
+        win.webkitRequestAnimationFrame ||
+        win.mozRequestAnimationFrame    ||
+        win.msRequestAnimationFrame     ||
+        win.oRequestAnimationFrame      ||
+        function (callback) {
+          win.setTimeout(function () {
+            callback(+new Date())
+          }, 17) // when I was 17..
+        }
+    }()
+
+    var children = []
+
+    function has(array, elem, i) {
+      if (Array.prototype.indexOf) return array.indexOf(elem)
+      for (i = 0; i < array.length; ++i) {
+        if (array[i] === elem) return i
+      }
+    }
+
+    function render(timestamp) {
+      var i, count = children.length
+      // if we're using a high res timer, make sure timestamp is not the old epoch-based value.
+      // http://updates.html5rocks.com/2012/05/requestAnimationFrame-API-now-with-sub-millisecond-precision
+      if (perfNow && timestamp > 1e12) timestamp = now()
+      for (i = count; i--;) {
+        children[i](timestamp)
+      }
+      children.length && frame(render)
+    }
+
+    function live(f) {
+      if (children.push(f) === 1) frame(render)
+    }
+
+    function die(f) {
+      var rest, index = has(children, f)
+      if (index >= 0) {
+        rest = children.slice(index + 1)
+        children.length = index
+        children = children.concat(rest)
+      }
+    }
+
+    function parseTransform(style, base) {
+      var values = {}, m
+      if (m = style.match(rotate)) values.rotate = by(m[1], base ? base.rotate : null)
+      if (m = style.match(scale)) values.scale = by(m[1], base ? base.scale : null)
+      if (m = style.match(skew)) {values.skewx = by(m[1], base ? base.skewx : null); values.skewy = by(m[3], base ? base.skewy : null)}
+      if (m = style.match(translate)) {values.translatex = by(m[1], base ? base.translatex : null); values.translatey = by(m[3], base ? base.translatey : null)}
+      return values
+    }
+
+    function formatTransform(v) {
+      var s = ''
+      if ('rotate' in v) s += 'rotate(' + v.rotate + 'deg) '
+      if ('scale' in v) s += 'scale(' + v.scale + ') '
+      if ('translatex' in v) s += 'translate(' + v.translatex + 'px,' + v.translatey + 'px) '
+      if ('skewx' in v) s += 'skew(' + v.skewx + 'deg,' + v.skewy + 'deg)'
+      return s
+    }
+
+    function rgb(r, g, b) {
+      return '#' + (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)
+    }
+
+    // convert rgb and short hex to long hex
+    function toHex(c) {
+      var m = c.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/)
+      return (m ? rgb(m[1], m[2], m[3]) : c)
+        .replace(/#(\w)(\w)(\w)$/, '#$1$1$2$2$3$3') // short skirt to long jacket
+    }
+
+    // change font-size => fontSize etc.
+    function camelize(s) {
+      return s.replace(/-(.)/g, function (m, m1) {
+        return m1.toUpperCase()
+      })
+    }
+
+    // aren't we having it?
+    function fun(f) {
+      return typeof f == 'function'
+    }
+
+    function nativeTween(t) {
+      // default to a pleasant-to-the-eye easeOut (like native animations)
+      return Math.sin(t * Math.PI / 2)
+    }
+
+    /**
+      * Core tween method that requests each frame
+      * @param duration: time in milliseconds. defaults to 1000
+      * @param fn: tween frame callback function receiving 'position'
+      * @param done {optional}: complete callback function
+      * @param ease {optional}: easing method. defaults to easeOut
+      * @param from {optional}: integer to start from
+      * @param to {optional}: integer to end at
+      * @returns method to stop the animation
+      */
+    function tween(duration, fn, done, ease, from, to) {
+      ease = fun(ease) ? ease : morpheus.easings[ease] || nativeTween
+      var time = duration || thousand
+        , self = this
+        , diff = to - from
+        , start = now()
+        , stop = 0
+        , end = 0
+
+      function run(t) {
+        var delta = t - start
+        if (delta > time || stop) {
+          to = isFinite(to) ? to : 1
+          stop ? end && fn(to) : fn(to)
+          die(run)
+          return done && done.apply(self)
+        }
+        // if you don't specify a 'to' you can use tween as a generic delta tweener
+        // cool, eh?
+        isFinite(to) ?
+          fn((diff * ease(delta / time)) + from) :
+          fn(ease(delta / time))
+      }
+
+      live(run)
+
+      return {
+        stop: function (jump) {
+          stop = 1
+          end = jump // jump to end of animation?
+          if (!jump) done = null // remove callback if not jumping to end
+        }
+      }
+    }
+
+    /**
+      * generic bezier method for animating x|y coordinates
+      * minimum of 2 points required (start and end).
+      * first point start, last point end
+      * additional control points are optional (but why else would you use this anyway ;)
+      * @param points: array containing control points
+         [[0, 0], [100, 200], [200, 100]]
+      * @param pos: current be(tween) position represented as float  0 - 1
+      * @return [x, y]
+      */
+    function bezier(points, pos) {
+      var n = points.length, r = [], i, j
+      for (i = 0; i < n; ++i) {
+        r[i] = [points[i][0], points[i][1]]
+      }
+      for (j = 1; j < n; ++j) {
+        for (i = 0; i < n - j; ++i) {
+          r[i][0] = (1 - pos) * r[i][0] + pos * r[parseInt(i + 1, 10)][0]
+          r[i][1] = (1 - pos) * r[i][1] + pos * r[parseInt(i + 1, 10)][1]
+        }
+      }
+      return [r[0][0], r[0][1]]
+    }
+
+    // this gets you the next hex in line according to a 'position'
+    function nextColor(pos, start, finish) {
+      var r = [], i, e, from, to
+      for (i = 0; i < 6; i++) {
+        from = Math.min(15, parseInt(start.charAt(i),  16))
+        to   = Math.min(15, parseInt(finish.charAt(i), 16))
+        e = Math.floor((to - from) * pos + from)
+        e = e > 15 ? 15 : e < 0 ? 0 : e
+        r[i] = e.toString(16)
+      }
+      return '#' + r.join('')
+    }
+
+    // this retreives the frame value within a sequence
+    function getTweenVal(pos, units, begin, end, k, i, v) {
+      if (k == 'transform') {
+        v = {}
+        for (var t in begin[i][k]) {
+          v[t] = (t in end[i][k]) ? Math.round(((end[i][k][t] - begin[i][k][t]) * pos + begin[i][k][t]) * thousand) / thousand : begin[i][k][t]
+        }
+        return v
+      } else if (typeof begin[i][k] == 'string') {
+        return nextColor(pos, begin[i][k], end[i][k])
+      } else {
+        // round so we don't get crazy long floats
+        v = Math.round(((end[i][k] - begin[i][k]) * pos + begin[i][k]) * thousand) / thousand
+        // some css properties don't require a unit (like zIndex, lineHeight, opacity)
+        if (!(k in unitless)) v += units[i][k] || 'px'
+        return v
+      }
+    }
+
+    // support for relative movement via '+=n' or '-=n'
+    function by(val, start, m, r, i) {
+      return (m = relVal.exec(val)) ?
+        (i = parseFloat(m[2])) && (start + (m[1] == '+' ? 1 : -1) * i) :
+        parseFloat(val)
+    }
+
+    /**
+      * morpheus:
+      * @param element(s): HTMLElement(s)
+      * @param options: mixed bag between CSS Style properties & animation options
+      *  - {n} CSS properties|values
+      *     - value can be strings, integers,
+      *     - or callback function that receives element to be animated. method must return value to be tweened
+      *     - relative animations start with += or -= followed by integer
+      *  - duration: time in ms - defaults to 1000(ms)
+      *  - easing: a transition method - defaults to an 'easeOut' algorithm
+      *  - complete: a callback method for when all elements have finished
+      *  - bezier: array of arrays containing x|y coordinates that define the bezier points. defaults to none
+      *     - this may also be a function that receives element to be animated. it must return a value
+      */
+    function morpheus(elements, options) {
+      var els = elements ? (els = isFinite(elements.length) ? elements : [elements]) : [], i
+        , complete = options.complete
+        , duration = options.duration
+        , ease = options.easing
+        , points = options.bezier
+        , begin = []
+        , end = []
+        , units = []
+        , bez = []
+        , originalLeft
+        , originalTop
+
+      if (points) {
+        // remember the original values for top|left
+        originalLeft = options.left;
+        originalTop = options.top;
+        delete options.right;
+        delete options.bottom;
+        delete options.left;
+        delete options.top;
+      }
+
+      for (i = els.length; i--;) {
+
+        // record beginning and end states to calculate positions
+        begin[i] = {}
+        end[i] = {}
+        units[i] = {}
+
+        // are we 'moving'?
+        if (points) {
+
+          var left = getStyle(els[i], 'left')
+            , top = getStyle(els[i], 'top')
+            , xy = [by(fun(originalLeft) ? originalLeft(els[i]) : originalLeft || 0, parseFloat(left)),
+                    by(fun(originalTop) ? originalTop(els[i]) : originalTop || 0, parseFloat(top))]
+
+          bez[i] = fun(points) ? points(els[i], xy) : points
+          bez[i].push(xy)
+          bez[i].unshift([
+            parseInt(left, 10),
+            parseInt(top, 10)
+          ])
+        }
+
+        for (var k in options) {
+          switch (k) {
+          case 'complete':
+          case 'duration':
+          case 'easing':
+          case 'bezier':
+            continue;
+            break
+          }
+          var v = getStyle(els[i], k), unit
+            , tmp = fun(options[k]) ? options[k](els[i]) : options[k]
+          if (typeof tmp == 'string' &&
+              rgbOhex.test(tmp) &&
+              !rgbOhex.test(v)) {
+            delete options[k]; // remove key :(
+            continue; // cannot animate colors like 'orange' or 'transparent'
+                      // only #xxx, #xxxxxx, rgb(n,n,n)
+          }
+
+          begin[i][k] = k == 'transform' ? parseTransform(v) :
+            typeof tmp == 'string' && rgbOhex.test(tmp) ?
+              toHex(v).slice(1) :
+              parseFloat(v)
+          end[i][k] = k == 'transform' ? parseTransform(tmp, begin[i][k]) :
+            typeof tmp == 'string' && tmp.charAt(0) == '#' ?
+              toHex(tmp).slice(1) :
+              by(tmp, parseFloat(v));
+          // record original unit
+          (typeof tmp == 'string') && (unit = tmp.match(numUnit)) && (units[i][k] = unit[1])
+        }
+      }
+      // ONE TWEEN TO RULE THEM ALL
+      return tween.apply(els, [duration, function (pos, v, xy) {
+        // normally not a fan of optimizing for() loops, but we want something
+        // fast for animating
+        for (i = els.length; i--;) {
+          if (points) {
+            xy = bezier(bez[i], pos)
+            els[i].style.left = xy[0] + 'px'
+            els[i].style.top = xy[1] + 'px'
+          }
+          for (var k in options) {
+            v = getTweenVal(pos, units, begin, end, k, i)
+            k == 'transform' ?
+              els[i].style[transform] = formatTransform(v) :
+              k == 'opacity' && !opasity ?
+                (els[i].style.filter = 'alpha(opacity=' + (v * 100) + ')') :
+                (els[i].style[camelize(k)] = v)
+          }
+        }
+      }, complete, ease])
+    }
+
+    // expose useful methods
+    morpheus.tween = tween
+    morpheus.getStyle = getStyle
+    morpheus.bezier = bezier
+    morpheus.transform = transform
+    morpheus.parseTransform = parseTransform
+    morpheus.formatTransform = formatTransform
+    morpheus.easings = {}
+
+    return morpheus
+
+  });
+
+  if (typeof provide == 'function') provide("morpheus", module.exports);
+
+  var morpheus = require('morpheus')
+  !function ($) {
+    $.ender({
+      animate: function (options) {
+        return morpheus(this, options)
+      }
+    , fadeIn: function (d, fn) {
+        return morpheus(this, {
+            duration: d
+          , opacity: 1
+          , complete: fn
+        })
+      }
+    , fadeOut: function (d, fn) {
+        return morpheus(this, {
+            duration: d
+          , opacity: 0
+          , complete: fn
+        })
+      }
+    }, true)
+    $.ender({
+      tween: morpheus.tween
+    })
+  }(ender)
+}());
+
+(function () {
+
+  var module = { exports: {} }, exports = module.exports;
+
+  /*global $, WebFontConfig*/
 
   /**
     * @FAT + @DED
@@ -2749,80 +3219,146 @@
     , $win: null
     , $buttons: null
 
+    , navTop: null
+
     , fixed: null
     , activeSection: null
 
-    , sections: []
-    , sectionCoords: []
-
+    , sections: null
+    , sectionCoords: null
 
     /* LE APP METHODS
       ====================*/
 
     , init: function () {
-        var section, i;
 
-        this.$nav = $('#nav');
-        this.$buttons = $('#nav a');
-        this.$win = $(window);
+        this.$nav        = $('#nav')
+        this.$buttons    = $('#nav a:not(.alt)')
+        this.$win        = $(window)
+        this.$page       = $('#content .page')
+        this.pages       = [ 'main', 'news' ]
+        this.currentPage = 0
 
-        for (i = 0, l = this.$buttons.length; i < l; i++) {
-          this.sections.push($(this.$buttons[i]).html());
-          section = document.getElementById(this.sections[i]);
-          section && this.sectionCoords.push(this.findPos(section).y - 20);
-        }
+        this.measure()
 
-        this.processScroll();
+        this.$win.bind('scroll', this.processScroll)
+        this.$nav.delegate(this.$buttons, 'click', this.setButton)
 
-        this.$win.bind('scroll', this.processScroll);
-        this.$nav.delegate(this.$buttons, 'click', this.setButton);
+        $('#nav a').on('click', function (e) {
+          var href = $(e.currentTarget).attr('href')
+            , ho
+
+          if (!/^#/.test(href))
+            return
+
+          e.stop()
+
+          href = href.substring(1)
+          ho = $('#' + href).offset()
+
+          App.scrollTo(ho.top + ho.height - 20, function () {
+          })
+            App.navTo(href)
+        })
       }
 
-    , setButton: function (e) {
-        App.$buttons.attr('class', '');
-        $(this).addClass('yellow');
-      }
+    , measure: function () {
+        var navPos = App.$nav.css('position')
+          , navTop = App.$nav.css('top')
+          , navOffset
+          , section
+          , sto
+          , i = 0
+          , l
 
-    , findPos: function (element) {
-        var curleft = curtop = 0;
-        if (!element.offsetParent) return;
-        do {
-          curleft += element.offsetLeft;
-          curtop += element.offsetTop;
-        } while (element = element.offsetParent);
-        return { x: curleft, y: curtop };
-      }
+        App.$nav.css({
+            position: 'relative'
+          , top: ''
+        })
+        navOffset         = App.$nav.offset()
+        App.navTop        = navOffset.top
+        App.sections      = []
+        App.sectionCoords = []
 
-    , processScroll: function (e) {
-        var i, scrollTop = App.$win.scrollTop();
+        App.$nav.css('position', 'absolute')
 
-        for (i = App.sectionCoords.length; i--;) {
-          var isActive = App.activeSection != App.sections[i]
-              && scrollTop > App.sectionCoords[i]
-              && (!App.sectionCoords[i + 1] || scrollTop < App.sectionCoords[i + 1]);
-
-          if (isActive) {
-            App.activeSection = App.sections[i];
-            App.setButton.call(App.$buttons[i]);
+        for (l = App.$buttons.length; i < l; i++) {
+          App.sections.push($(App.$buttons[i]).html())
+          if (section = document.getElementById(App.sections[i])) {
+            sto = $(section).offset()
+            App.sectionCoords.push(sto.top + sto.height - 25)
           }
         }
 
-        if (scrollTop >= 485 && !this.fixed) {
-          App.fixed = true;
-          App.$nav.css({ position: 'fixed'
-          , top: 0
-          });
-        } else if (scrollTop <= 485 && App.fixed) {
-          App.fixed = false;
-          App.$nav.attr('style', '');
+        App.$nav.css({
+            position : navPos
+          , top      : navTop
+        })
+        App.processScroll()
+      }
+
+    , navTo: function (page) {
+        var io = this.pages.indexOf(page)
+        if (io == -1)
+          io = 0
+        if (this.currentPage != io) {
+          this.$page.removeClass(this.pages[this.currentPage])
+          this.$page.addClass(this.pages[this.currentPage = io])
+          if (io !== 0) {
+            App.activeSection = null
+            this.setButton.call($('nav a[href=#' + page + ']')[0])
+          } else {
+            this.processScroll()
+          }
         }
       }
 
-  };
+    , setButton: function () {
+        $('nav a').attr('class', '')
+        $(this).addClass('yellow')
+      }
+
+    , processScroll: function () {
+        var scrollTop = App.$win.scrollTop()
+          , i         = App.sectionCoords.length
+          , isActive
+
+        if (App.currentPage === 0) {
+          for (; i--;) {
+            isActive = App.activeSection != App.sections[i]
+                && scrollTop > App.sectionCoords[i]
+                && (!App.sectionCoords[i + 1] || scrollTop < App.sectionCoords[i + 1])
+
+            if (isActive) {
+              App.activeSection = App.sections[i]
+              App.setButton.call($('nav a[href=#' + App.sections[i] + ']')[0])
+            }
+          }
+        }
+
+        if (scrollTop >= App.navTop && !this.fixed) {
+          App.fixed = true
+          App.$nav.css({
+              position: 'fixed'
+            , top: 0
+          })
+        } else if (scrollTop <= App.navTop && App.fixed) {
+          App.fixed = false
+          App.$nav.attr('style', '')
+        }
+      }
+
+    , scrollTo: function (pos, callback) {
+        var fn = function (t) { window.scrollTo(0, Math.round(t)) }
+        $.tween(400, fn, callback, null, $(window).scrollTop(), pos)
+      }
+  }
 
   $.domReady(function () {
-    App.init();
-  });
-  provide("ender-website-frontend", module.exports);
+    App.init()
+  })
+
+  WebFontConfig._loaded = App.measure
+  if (typeof provide == 'function') provide("ender-website-frontend", module.exports);
   $.ender(module.exports);
 }());

@@ -1,3 +1,5 @@
+/*global $, WebFontConfig*/
+
 /**
   * @FAT + @DED
   * APP SINGLETON CONTR.
@@ -14,77 +16,142 @@ var App = {
   , $win: null
   , $buttons: null
 
+  , navTop: null
+
   , fixed: null
   , activeSection: null
 
-  , sections: []
-  , sectionCoords: []
-
+  , sections: null
+  , sectionCoords: null
 
   /* LE APP METHODS
     ====================*/
 
   , init: function () {
-      var section, i;
 
-      this.$nav = $('#nav');
-      this.$buttons = $('#nav a');
-      this.$win = $(window);
+      this.$nav        = $('#nav')
+      this.$buttons    = $('#nav a:not(.alt)')
+      this.$win        = $(window)
+      this.$page       = $('#content .page')
+      this.pages       = [ 'main', 'news' ]
+      this.currentPage = 0
 
-      for (i = 0, l = this.$buttons.length; i < l; i++) {
-        this.sections.push($(this.$buttons[i]).html());
-        section = document.getElementById(this.sections[i]);
-        section && this.sectionCoords.push(this.findPos(section).y - 20);
-      }
+      this.measure()
 
-      this.processScroll();
+      this.$win.bind('scroll', this.processScroll)
+      this.$nav.delegate(this.$buttons, 'click', this.setButton)
 
-      this.$win.bind('scroll', this.processScroll);
-      this.$nav.delegate(this.$buttons, 'click', this.setButton);
+      $('#nav a').on('click', function (e) {
+        var href = $(e.currentTarget).attr('href')
+          , ho
+
+        if (!/^#/.test(href))
+          return
+
+        e.stop()
+
+        href = href.substring(1)
+        ho = $('#' + href).offset()
+
+        App.scrollTo(ho.top + ho.height - 20)
+        App.navTo(href)
+      })
     }
 
-  , setButton: function (e) {
-      App.$buttons.attr('class', '');
-      $(this).addClass('yellow');
-    }
+  , measure: function () {
+      var navPos = App.$nav.css('position')
+        , navTop = App.$nav.css('top')
+        , navOffset
+        , section
+        , sto
+        , i = 0
+        , l
 
-  , findPos: function (element) {
-      var curleft = curtop = 0;
-      if (!element.offsetParent) return;
-      do {
-        curleft += element.offsetLeft;
-        curtop += element.offsetTop;
-      } while (element = element.offsetParent);
-      return { x: curleft, y: curtop };
-    }
+      App.$nav.css({
+          position: 'relative'
+        , top: ''
+      })
+      navOffset         = App.$nav.offset()
+      App.navTop        = navOffset.top
+      App.sections      = []
+      App.sectionCoords = []
 
-  , processScroll: function (e) {
-      var i, scrollTop = App.$win.scrollTop();
+      App.$nav.css('position', 'absolute')
 
-      for (i = App.sectionCoords.length; i--;) {
-        var isActive = App.activeSection != App.sections[i]
-            && scrollTop > App.sectionCoords[i]
-            && (!App.sectionCoords[i + 1] || scrollTop < App.sectionCoords[i + 1]);
-
-        if (isActive) {
-          App.activeSection = App.sections[i];
-          App.setButton.call(App.$buttons[i]);
+      for (l = App.$buttons.length; i < l; i++) {
+        App.sections.push($(App.$buttons[i]).html())
+        if (section = document.getElementById(App.sections[i])) {
+          sto = $(section).offset()
+          App.sectionCoords.push(sto.top + sto.height - 25)
         }
       }
 
-      if (scrollTop >= 485 && !this.fixed) {
-        App.fixed = true;
-        App.$nav.css({ position: 'fixed'
-        , top: 0
-        });
-      } else if (scrollTop <= 485 && App.fixed) {
-        App.fixed = false;
-        App.$nav.attr('style', '');
+      App.$nav.css({
+          position : navPos
+        , top      : navTop
+      })
+      App.processScroll()
+    }
+
+  , navTo: function (page) {
+      var io = this.pages.indexOf(page)
+      if (io == -1)
+        io = 0
+      if (this.currentPage != io) {
+        this.$page.removeClass(this.pages[this.currentPage])
+        this.$page.addClass(this.pages[this.currentPage = io])
+        if (io !== 0) {
+          App.activeSection = null
+          this.setButton.call($('nav a[href=#' + page + ']')[0])
+        } else {
+          this.processScroll()
+        }
       }
     }
 
-};
+  , setButton: function () {
+      $('nav a').attr('class', '')
+      $(this).addClass('yellow')
+    }
+
+  , processScroll: function () {
+      var scrollTop = App.$win.scrollTop()
+        , i         = App.sectionCoords.length
+        , isActive
+
+      if (App.currentPage === 0) {
+        for (; i--;) {
+          isActive = App.activeSection != App.sections[i]
+              && scrollTop > App.sectionCoords[i]
+              && (!App.sectionCoords[i + 1] || scrollTop < App.sectionCoords[i + 1])
+
+          if (isActive) {
+            App.activeSection = App.sections[i]
+            App.setButton.call($('nav a[href=#' + App.sections[i] + ']')[0])
+          }
+        }
+      }
+
+      if (scrollTop >= App.navTop && !this.fixed) {
+        App.fixed = true
+        App.$nav.css({
+            position: 'fixed'
+          , top: 0
+        })
+      } else if (scrollTop <= App.navTop && App.fixed) {
+        App.fixed = false
+        App.$nav.attr('style', '')
+      }
+    }
+
+  , scrollTo: function (pos, callback) {
+      var fn = function (t) { window.scrollTo(0, Math.round(t)) }
+      $.tween(400, fn, callback, null, $(window).scrollTop(), pos)
+    }
+}
 
 $.domReady(function () {
-  App.init();
-});
+  App.init()
+})
+
+WebFontConfig._loaded = App.measure

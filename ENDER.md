@@ -528,11 +528,11 @@ Instructional videos and other cool stuff for learning about Ender.
 
 ### Getting Started with Ender
 
-  <iframe src="http://player.vimeo.com/video/23836209?portrait=0" width="640" height="360" frameborder="0"></iframe>
+  <xiframe src="http://player.vimeo.com/video/23836209?portrait=0" width="640" height="360" frameborder="0"></xiframe>
 
 ### Building an Ender Module
 
-  <iframe src="http://player.vimeo.com/video/24296635?portrait=0" width="640" height="360" frameborder="0"></iframe>
+  <xiframe src="http://player.vimeo.com/video/24296635?portrait=0" width="640" height="360" frameborder="0"></xiframe>
 
 <div class="hr" id="about"></div>
 

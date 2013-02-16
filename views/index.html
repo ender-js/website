@@ -7,8 +7,25 @@
 {% block content %}
 <section id="content">
   <div class="wrap">
-    <div class="page">
-      {{ content|raw }}
+    <div class="page main">
+      <div class="sub main">
+        {{ mainContent|raw }}
+      </div>
+      <div class="sub news">
+
+        <div id="news"></div>
+
+        {% for news in newsContent %}
+
+          <h2>{{ news.spec.title }}</h2>
+          <p class="spec"><em>by {{ news.spec.author }} on {{ news.spec.date|date('F jS') }}</em></p>
+
+          {{ news.page|raw }}
+
+          <div class="hr"></div>
+
+        {% endfor %}
+      </div>
     </div>
     <div id="courtesy">
       <p>illustration courtesy <a href="http://raphaelurwiller.com/">raphaelurwiller</a></p>

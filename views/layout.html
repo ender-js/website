@@ -4,15 +4,26 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>{% block title %}Ender - the no-library JavaScript library{% endblock %}</title>
     <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <!--
     <link href='http://fonts.googleapis.com/css?family=Lusitana:400,700' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    -->
+    <script>
+      WebFontConfig = {
+          google     : { families: [ 'Lusitana:400,700', 'Ubuntu Mono', 'Lato' ] }
+        , active : function () {
+            typeof WebFontConfig._loaded == 'function' && WebFontConfig._loaded()
+          }
+      }
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js" async></script>
   </head>
   <body>
     {% include "nav.html" %}
 
     <section class="wrap">
-      <section id="intro">
+      <section id="boom">
         <header>
           <section class="left">
             <h1>ENDER <span>the no-library library</span></h1>
@@ -29,11 +40,13 @@
     {% block content %}{% endblock %}
 
     <script src="/js/ender.min.js"></script>
-    <script src="//platform.twitter.com/anywhere.js?id=frmB6pZo25QLmwMoV4z5Cw&v=1"></script>
-    <script type="text/javascript">
+    <!--
+    <xscript src="//platform.twitter.com/anywhere.js?id=frmB6pZo25QLmwMoV4z5Cw&v=1"></script>
+    <xscript type="text/javascript">
       var _gaq = [ [ '_setAccount', 'UA-22894426-1'], ['_trackPageview']]
       twttr.anywhere(function (T) { T.hovercards() })
     </script>
-    <script src='//www.google-analytics.com/ga.js'></script>
+    <xscript src='//www.google-analytics.com/ga.js'></script>
+    -->
   </body>
 </html>
