@@ -18,7 +18,7 @@
         {% for news in newsContent %}
 
           <h2>{{ news.spec.title }}</h2>
-          <p class="spec"><em>by {{ news.spec.author }} on {{ news.spec.date|date('F jS') }}</em></p>
+          <p class="spec"><em>by {{ news.spec.author }} on {{ news.spec.date|date('F jS, Y') }}</em></p>
 
           {{ news.page|raw }}
 
