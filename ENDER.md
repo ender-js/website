@@ -412,9 +412,9 @@ $.ender({
     return this[Math.floor(Math.random() * this.length)]
   }
 }, true)
-```
 
 $('p').rand()
+```
 
 <p id="_select"></p>
 
@@ -528,21 +528,21 @@ Instructional videos and other cool stuff for learning about Ender.
 
 ### Getting Started with Ender
 
-  <xiframe src="http://player.vimeo.com/video/23836209?portrait=0" width="640" height="360" frameborder="0"></xiframe>
+  <iframe src="http://player.vimeo.com/video/23836209?portrait=0" width="640" height="360" frameborder="0"></iframe>
 
 ### Building an Ender Module
 
-  <xiframe src="http://player.vimeo.com/video/24296635?portrait=0" width="640" height="360" frameborder="0"></xiframe>
+  <iframe src="http://player.vimeo.com/video/24296635?portrait=0" width="640" height="360" frameborder="0"></iframe>
 
 <div class="hr" id="about"></div>
 
 ## ABOUT THIS PROJECT
 
-We would love to hear how you're using Ender or why you're not. What you love... what you hate... And we would love all the help we can get! Got a great idea? Open an issue, submit a pull request, follow @ender, or [message us on twitter](http://twitter.com/intent/tweet?text=@fat%20@ded%20-%20I'm%20using%20ender.%20Check%20it%20out%20at%20http://)!
+We would love to hear how you're using Ender or why you're not. What you love... what you hate... And we would love all the help we can get! Got a great idea? Open an issue, submit a pull request, follow @ender, or [message us on twitter](http://twitter.com/intent/tweet?text=@ender%20-%20I'm%20using%20ender.%20Check%20it%20out)!
 
 ### LICENSE
 
-Ender is licensed under *MIT* - *copyright 2012-2013 Dustin Diaz & Jacob Thornton*
+Ender is licensed under *MIT* - *copyright 2011-2013 Dustin Diaz, Jacob Thornton, Rod Vagg*
 
 For the individual modules, see their respective licenses.
 

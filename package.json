@@ -5,10 +5,10 @@
   , "subdomain"    : "ender"
   , "domains"      : [
         "enderjs.com"
-      , "www.enders.com"
+      , "www.enderjs.com"
     ]
   , "scripts"      : {
-        "start"       : "index.js"
+        "start"       : "node index.js"
     }
   , "dependencies" : {
         "splink-smvc" : "*"
