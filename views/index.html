@@ -17,7 +17,12 @@
 
         {% for news in newsContent %}
 
-          <h2>{{ news.spec.title }}</h2>
+          <a name="news__{{ news.spec.title|replace(' ', '_', 'g')|lower|url_encode }}"></a>
+          <h2>
+            <a href="#news__{{ news.spec.title|replace(' ', '_', 'g')|lower|url_encode }}">
+              {{ news.spec.title }}
+            </a>
+          </h2>
           <p class="spec"><em>by {{ news.spec.author }} on {{ news.spec.date|date('F jS, Y') }}</em></p>
 
           {{ news.page|raw }}

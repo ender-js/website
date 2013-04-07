@@ -1,7 +1,7 @@
 /*global $, WebFontConfig*/
 
 /**
-  * @FAT + @DED
+  * @FAT + @DED + @RVAGG
   * APP SINGLETON CONTR.
   * LICENSE MIT
   * ====================
@@ -56,6 +56,10 @@ var App = {
         App.scrollTo(ho.top + ho.height - 20)
         App.navTo(href)
       })
+
+      var page = location.href.split('#')[1]
+      if (page)
+        App.navTo(page)
     }
 
   , measure: function () {
@@ -93,8 +97,11 @@ var App = {
       App.processScroll()
     }
 
-  , navTo: function (page) {
-      var io = this.pages.indexOf(page)
+  , navTo: function (page_) {
+      var page = page_.replace(/__.*$/, '')
+        , io = this.pages.indexOf(page)
+      location.href = location.href.replace(/(#.*$)|($)/, '#' + (page_ || ''))
+      console.log('navTo(', page_, '):', page, io)
       if (io == -1)
         io = 0
       if (this.currentPage != io) {
@@ -104,7 +111,8 @@ var App = {
           App.activeSection = null
           this.setButton.call($('nav a[href=#' + page + ']')[0])
         } else {
-          this.processScroll()
+          if (page_ != page)
+            this.processScroll()
         }
       }
     }
