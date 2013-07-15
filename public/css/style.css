@@ -169,7 +169,10 @@ ul li: nth-child(odd) {
 
 .page.main .sub.main, .page.news .sub.news {
   opacity: 1;
-  transition-delay: .4s;
+  -webkit-transition-delay: .4s;
+     -moz-transition-delay: .4s;
+       -o-transition-delay: .4s;
+          transition-delay: .4s;
 }
 
 .page.main .sub.news, .page.news .sub.main {
