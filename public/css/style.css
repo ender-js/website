@@ -151,58 +151,32 @@ ul li: nth-child(odd) {
   background: #fff;
   border-bottom: 4px solid #888;
   margin-bottom: 20px;
-  -webkit-transform-style: preserve-3d;
-     -moz-transform-style: preserve-3d;
-       -o-transform-style: preserve-3d;
-          transform-style: preserve-3d;
-  -xwebkit-perspective: -1;
 }
 
 .page .sub {
-  -webkit-backface-visibility: hidden;
-     -moz-backface-visibility: hidden;
-       -o-backface-visibility: hidden;
-          backface-visibility: hidden;
-  -webkit-transition: -webkit-transform 1s;
-     -moz-transition: -moz-transform 1s;
-       -o-transition: -o-transform 1s;
-          transition: transform 1s;
-  -xwebkit-perspective: 1000;
+  -webkit-transition: opacity .4s;
+     -moz-transition: opacity .4s;
+       -o-transition: opacity .4s;
+          transition: opacity .4s;
   width: 960px;
 }
 
 .page .sub:not(.main) {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 20px;
+  left: 20px;
 }
 
-.page.main .sub.main {
-  -webkit-transform: rotateY( 0deg ) translate3d( 0.1px, 0.1px, 0.1px );
-     -moz-transform: rotateY( 0deg ) translate3d( 0.1px, 0.1px, 0.1px );
-       -o-transform: rotateY( 0deg ) translate3d( 0.1px, 0.1px, 0.1px );
-          transform: rotateY( 0deg ) translate3d( 0.1px, 0.1px, 0.1px );
+.page.main .sub.main, .page.news .sub.news {
+  opacity: 1;
+  -webkit-transition-delay: .4s;
+     -moz-transition-delay: .4s;
+       -o-transition-delay: .4s;
+          transition-delay: .4s;
 }
 
-.page.main .sub.news {
-  -webkit-transform: rotateY( 180deg ) translate3d( 0.1px, 0.1px, 0.1px );
-     -moz-transform: rotateY( 180deg ) translate3d( 0.1px, 0.1px, 0.1px );
-       -o-transform: rotateY( 180deg ) translate3d( 0.1px, 0.1px, 0.1px );
-          transform: rotateY( 180deg ) translate3d( 0.1px, 0.1px, 0.1px );
-}
-
-.page.news .sub.main {
-  -webkit-transform: rotateY( 180deg ) translate3d( 0.1px, 0.1px, 0.1px );
-     -moz-transform: rotateY( 180deg ) translate3d( 0.1px, 0.1px, 0.1px );
-       -o-transform: rotateY( 180deg ) translate3d( 0.1px, 0.1px, 0.1px );
-          transform: rotateY( 180deg ) translate3d( 0.1px, 0.1px, 0.1px );
-}
-
-.page.news .sub.news {
-  -webkit-transform: rotateY( 0deg ) translate3d( 0.1px, 0.1px, 0.1px );
-     -moz-transform: rotateY( 0deg ) translate3d( 0.1px, 0.1px, 0.1px );
-       -o-transform: rotateY( 0deg ) translate3d( 0.1px, 0.1px, 0.1px );
-          transform: rotateY( 0deg ) translate3d( 0.1px, 0.1px, 0.1px );
+.page.main .sub.news, .page.news .sub.main {
+  opacity: 0;
 }
 
 .page .title {
