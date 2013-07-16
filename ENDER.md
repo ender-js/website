@@ -490,7 +490,7 @@ $('#content a').remove('click.myClick')
 <p id="tryit"></p>
 
 ### TRY IT OUT
-If you're looking to test drive this setup, have a play with [the compiled source](http://cdn.enderjs.com/jeesh.min.js)
+If you're looking to test drive this setup, have a play with [the compiled source](http://cdn.enderjs.com/jeesh.js) ([minified](http://cdn.enderjs.com/jeesh.min.js)).
 
 <div class="hr" id="additionalpackages"></div>
 
