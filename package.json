@@ -1,6 +1,6 @@
 {
     "name"         : "ender-website"
-  , "version"      : "0.2.2"
+  , "version"      : "0.3.0"
   , "main"         : "index.js"
   , "subdomain"    : "ender"
   , "domains"      : [
@@ -11,7 +11,7 @@
         "start"       : "node index.js"
     }
   , "dependencies" : {
-        "splink-smvc" : "*"
+        "splinky"     : "~0.1.0"
       , "swig"        : "~0.13.2"
       , "ssbl"        : "*"
       , "brucedown"   : "*"
