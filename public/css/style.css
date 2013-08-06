@@ -202,7 +202,7 @@ ul li: nth-child(odd) {
 =============*/
 
 header .left {
-  background: url('/img/battle.jpg') no-repeat 30px 90px;
+  background: url('/img/battle.jpg') no-repeat 30px 75px;
   height: 470px;
   width: 470px;
   float: left;
