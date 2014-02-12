@@ -23,6 +23,10 @@ pre {
   line-height: 1.3;
 }
 
+code {
+  font-family: 'Ubuntu Mono', monospace;
+}
+
 .hr {
   background: url('/img/hr.jpg');
   height: 15px;
@@ -115,24 +119,29 @@ ul {
   color: #fa524f;
 }
 
-ul li {
+.sub.main ul li {
   list-style: none;
-  padding: 6px 20px;
   background: #eee;
+  padding: 6px 20px;
 }
 
-ul li li {
+.sub.news ul li {
+  padding: 6px 10px;
+  margin-left: 40px;
+}
+
+.sub.main ul li li {
   padding: 4px 20px;
 }
 
-ul li img {
+.sub.main. ul li img {
   width: 50px;
   height: 50px;
   float: left;
   margin-right: 10px;
 }
 
-ul li: nth-child(odd) {
+.sub.main ul li: nth-child(odd) {
   background: #ddd;
 }
 
