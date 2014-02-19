@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "dependencies": {
     "jeesh": "*",
-    "morpheus": "~0.6.6"
+    "morpheus": "~0.7.0"
   },
   "main": "app.js",
   "private": true
